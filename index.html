@@ -1486,15 +1486,11 @@ function ConsultModal({ open, onClose, defaultCamp }) {
       submitted_at: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
     };
     try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload),
-      });
+      const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
+      navigator.sendBeacon(APPS_SCRIPT_URL, blob);
       setStatus('success');
     } catch(err) {
-      setStatus('success'); // no-cors는 항상 opaque response → 성공으로 처리
+      setStatus('error');
     }
   };
 
