@@ -295,7 +295,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding-top: var(--nav-h);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  padding-bottom: 0;
 }
 .hero-split-text {
   padding: clamp(36px, 6vw, 64px) 0 clamp(28px, 4vw, 48px);
@@ -308,18 +308,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hero-split-text .hero-ctas { justify-content: center; margin-bottom: 0; }
 .hero-split-img {
   width: 92%;
-  max-width: 520px;
+  max-width: 560px;
   margin: 32px auto 0;
   border-radius: 16px 16px 0 0;
-  overflow: hidden;
 }
 .hero-split-img img {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 16px 16px 0 0;
 }
 @media (min-width: 768px) {
-  .hero-split-img { max-width: 680px; }
+  .hero-split-img { max-width: 720px; }
 }
 .stat-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
