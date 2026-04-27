@@ -288,6 +288,42 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-bottom: 32px;
 }
 .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+
+/* Hero Split variant (Go3) */
+.hero-split {
+  background: var(--navy);
+  padding-top: var(--nav-h);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.hero-split-text {
+  padding: clamp(36px, 6vw, 64px) 0 clamp(28px, 4vw, 48px);
+  text-align: center;
+}
+.hero-split-text .eyebrow { color: var(--gold); margin-bottom: 16px; }
+.hero-split-text .h1 { color: var(--white); margin-bottom: 16px; }
+.hero-split-text .sub { color: #B8C2D1; font-size: clamp(14px, 1.2vw, 17px); margin-bottom: 24px; }
+.hero-split-text .hero-shield { margin-bottom: 28px; }
+.hero-split-text .hero-ctas { justify-content: center; margin-bottom: 0; }
+.hero-split-img {
+  width: 92%;
+  max-width: 520px;
+  margin: 32px auto 0;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  height: 280px;
+}
+.hero-split-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+@media (min-width: 768px) {
+  .hero-split-img { height: 360px; max-width: 680px; }
+}
 .stat-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 1px;
@@ -2200,9 +2236,8 @@ function Go3Page() {
       <Nav page="go3" />
 
       {/* G-S1 Hero */}
-      <section className="hero">
-        <PH className="hero-photo" src="images/hero-go3.jpg" alt="고3 수능 실전 캠프" label="고3 히어로" />
-        <div className="hero-text">
+      <section className="hero-split">
+        <div className="hero-split-text">
           <div className="wrap">
             <div className="eyebrow">◆ 고3 수능 실전 하드트레이닝 캠프</div>
             <h1 className="h1">
@@ -2219,6 +2254,9 @@ function Go3Page() {
               <a className="btn btn-secondary btn-lg" href="#recruit">모집요강 보기</a>
             </div>
           </div>
+        </div>
+        <div className="hero-split-img">
+          <img src="images/hero-go3.jpg" alt="고3 수능 실전 캠프" />
         </div>
       </section>
 
