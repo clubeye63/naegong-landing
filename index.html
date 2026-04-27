@@ -687,6 +687,74 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .process-step-title { font-size: 18px; }
 }
 
+/* Mentor portrait cards */
+.mentor-grid-v2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.mentor-card-v2 {
+  background: var(--navy);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.mentor-card-v2:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(11,42,91,0.18); }
+.mentor-card-v2-img {
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  position: relative;
+}
+.mentor-card-v2-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.mentor-card-v2-img .ph {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3/4;
+}
+.mentor-card-v2-body {
+  padding: 16px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mentor-card-v2-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--gold);
+}
+.mentor-card-v2-name {
+  font-size: 18px; font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+.mentor-card-v2-school {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 6px;
+}
+.mentor-card-v2-tags {
+  display: flex; flex-wrap: wrap; gap: 5px;
+}
+.mentor-card-v2-tag {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px; font-weight: 500;
+  color: rgba(255,255,255,0.75);
+}
+@media (max-width: 767px) {
+  .mentor-grid-v2 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .mentor-card-v2-name { font-size: 16px; }
+}
+
 /* Strategy icon cards */
 .strategy-grid {
   display: grid;
@@ -2528,7 +2596,7 @@ function Go3Page() {
             <h2 className="h2 navy-text">연세대 의·치·약대 재학생 멘토</h2>
             <p className="lede sub">수능을 직접 겪고, 같은 길을 먼저 걸어본 선배들. 학생 6명당 1명 배정.</p>
           </div>
-          <div className="mentor-grid">
+          <div className="mentor-grid-v2">
             {[
               { name: "멘토 A", src: "images/mentor-a.jpg", school: "연세대 의예과 23학번", tags: ["수학 최상위", "국어 독서", "멘탈 관리"] },
               { name: "멘토 B", src: "images/mentor-b.jpg", school: "연세대 치의예과 22학번", tags: ["생명과학", "화학", "생활지도"] },
@@ -2537,13 +2605,17 @@ function Go3Page() {
               { name: "멘토 E", school: "연세대 의예과 24학번", tags: ["물리", "수학 확통", "오답 노트"] },
               { name: "멘토 F", school: "연세대 치의예과 23학번", tags: ["국어", "영어", "학습 루틴"] },
             ].map((m, i) => (
-              <div className={`mentor-card reveal reveal-delay-${i % 3}`} key={i}>
-                <PH label={`${m.name} 포트레이트`} src={m.src} />
-                <div className="mentor-body">
-                  <div className="mentor-badge">MENTOR</div>
-                  <div className="mentor-name">{m.name}</div>
-                  <div className="mentor-school">{m.school}</div>
-                  <div className="mentor-tags">{m.tags.map((t) => <span key={t}>{t}</span>)}</div>
+              <div className={`mentor-card-v2 reveal reveal-delay-${i % 4}`} key={i}>
+                <div className="mentor-card-v2-img">
+                  <PH label={`${m.name} 포트레이트`} src={m.src} ratio="3/4" />
+                </div>
+                <div className="mentor-card-v2-body">
+                  <div className="mentor-card-v2-label">MENTOR</div>
+                  <div className="mentor-card-v2-name">{m.name}</div>
+                  <div className="mentor-card-v2-school">{m.school}</div>
+                  <div className="mentor-card-v2-tags">
+                    {m.tags.map((t) => <span key={t} className="mentor-card-v2-tag">{t}</span>)}
+                  </div>
                 </div>
               </div>
             ))}
