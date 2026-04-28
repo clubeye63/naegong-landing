@@ -270,6 +270,38 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   width: 100%;
   height: 68vh; min-height: 480px; max-height: 720px;
 }
+
+/* Hero Slider */
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 68vh; min-height: 480px; max-height: 720px;
+  overflow: hidden;
+}
+.hero-slide {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+.hero-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.hero-slide img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.hero-slider-dots {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 2;
+}
+.hero-slider-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  border: none; cursor: pointer; padding: 0;
+  transition: background 0.3s;
+}
+.hero-slider-dot.active { background: var(--gold); }
 .hero-text {
   background: var(--navy);
   color: var(--white);
@@ -2089,6 +2121,30 @@ Object.assign(window, {
 /* global React, PH, Nav, CTASection, Footer, useReveal */
 const { useState, useEffect } = React;
 
+function HeroSlider({ slides, interval = 4500 }) {
+  const [cur, setCur] = React.useState(0);
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCur(prev => (prev + 1) % slides.length);
+    }, interval);
+    return () => clearInterval(timer);
+  }, [slides.length, interval]);
+  return (
+    <div className="hero-slider">
+      {slides.map((s, i) => (
+        <div key={i} className={"hero-slide" + (i === cur ? " active" : "")}>
+          <img src={s.src} alt={s.alt} />
+        </div>
+      ))}
+      <div className="hero-slider-dots">
+        {slides.map((_, i) => (
+          <button key={i} className={"hero-slider-dot" + (i === cur ? " active" : "")} onClick={() => setCur(i)} aria-label={"슬라이드 " + (i + 1)} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function HubPage() {
   useReveal();
 
@@ -2141,7 +2197,11 @@ function HubPage() {
 
       {/* H-S1 Hero */}
       <section className="hero">
-        <PH className="hero-photo" src="images/hero-hub.jpg" alt="연세대 송도 국제캠퍼스 전경" label="연세대 송도 국제캠퍼스 전경" />
+        <HeroSlider slides={[
+          { src: "images/campus-01a.jpg", alt: "연세대 송도 국제캠퍼스 전경" },
+          { src: "images/target-preg1.jpg", alt: "내공 캠프 학습 현장" },
+          { src: "images/why-system.jpg", alt: "내공 학습 시스템" },
+        ]} />
         <div className="hero-text">
           <div className="wrap">
             <div className="eyebrow">2026 여름 · 연세대학교 송도 국제캠퍼스</div>
