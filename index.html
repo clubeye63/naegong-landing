@@ -287,7 +287,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 13px; font-weight: 600;
   margin-bottom: 32px;
 }
-.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+.hero-ctas { display: flex; flex-direction: column; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+.hero-cta-full { width: 100%; }
+.hero-cta-row { display: flex; gap: 10px; }
+.hero-cta-row .btn { flex: 1; }
 
 /* Hero Split variant (Go3) */
 .hero-split {
@@ -2152,8 +2155,11 @@ function HubPage() {
               순공 10시간 미달 시 전액 환불 보증
             </div>
             <div className="hero-ctas">
-              <button className="btn btn-primary btn-lg" onClick={() => window.__openConsultModal && window.__openConsultModal()}>1:1 상담 신청하기</button>
-              <a className="btn btn-secondary btn-lg" href="#">현장 설명회 예약</a>
+              <button className="btn btn-primary btn-lg hero-cta-full" onClick={() => window.__openConsultModal && window.__openConsultModal()}>1:1 상담 신청하기</button>
+              <div className="hero-cta-row">
+                <a className="btn btn-secondary btn-lg" href="#/pre-go1">중3반 바로가기</a>
+                <a className="btn btn-secondary btn-lg" href="#/go3">고3반 바로가기</a>
+              </div>
             </div>
             <div className="stat-grid">
               <div className="stat-cell"><div className="num">집중 과정</div><div className="lbl">21일</div></div>
