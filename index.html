@@ -1184,6 +1184,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   body { padding-bottom: 76px; }
   .hero-photo { height: 46vh; min-height: 280px; }
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ── 모바일 첫 화면에 히어로 전체가 들어오도록 ── */
+  .hero-slider { height: 38vh; min-height: 220px; max-height: 340px; }
+  .hero-text { padding: 22px 0 20px; }
+  .hero-text .eyebrow { margin-bottom: 10px; font-size: 11px; }
+  .hero-text .h1 { font-size: clamp(24px, 6.5vw, 34px); margin-bottom: 10px; }
+  .hero-text .sub { font-size: 13px; margin-bottom: 14px; }
+  .hero-shield { padding: 6px 12px; font-size: 12px; margin-bottom: 16px; }
+  .hero-ctas { gap: 8px; margin-bottom: 0; }
+  .btn-lg { height: 52px; font-size: 15px; }
 }
 @media (max-width: 640px) {
   .grid-2 { grid-template-columns: 1fr; }
