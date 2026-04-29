@@ -379,21 +379,29 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .why-card {
   background: var(--white);
   box-shadow: var(--shadow-md);
+  border-radius: 16px;
   display: flex; flex-direction: column;
+  overflow: hidden;
   transition: transform .3s ease, box-shadow .3s ease;
 }
 .why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.why-card .ph { height: 240px; }
-.why-card-body { padding: 28px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
-.why-card-body h3 { margin: 0; }
-.why-card-body p { margin: 0; color: var(--ink-2); line-height: 1.75; font-size: 15px; }
+.why-card .ph { height: 240px; flex-shrink: 0; border-radius: 0; }
+.why-card-body { padding: 28px 28px 24px; display: flex; flex-direction: column; gap: 10px; }
+.why-card-problem {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #EAEAEA;
+  margin-bottom: 2px;
+}
+.why-card-body h3 { margin: 0; font-size: clamp(17px, 1.6vw, 20px); }
+.why-card-body p { margin: 0; color: var(--ink-2); line-height: 1.8; font-size: 14.5px; }
 .why-quote {
-  padding: 14px 0 0 16px;
+  padding: 12px 0 0 14px;
   border-left: 3px solid var(--gold);
   font-style: italic;
   color: var(--navy);
-  font-size: 15px;
-  margin-top: auto;
+  font-size: 14px;
+  margin-top: 4px;
 }
 
 /* Campus gallery */
@@ -2315,26 +2323,38 @@ function HubPage() {
           </div>
           <div className="grid grid-3">
             {[
-              { t: "공간의 힘", src: "images/why-space.jpg",
-                img: "캠퍼스 건물 사진\n(모던 대학 건물 외관 · 자연광)",
-                p: "연세대 송도 국제캠퍼스의 기숙사·강의실·학생식당을 그대로 활용합니다.",
-                q: "내가 곧 이 캠퍼스의 주인이 된다" },
-              { t: "시스템의 힘", src: "images/why-system.jpg",
-                img: "내공 앱 대시보드 Mock-up\n(스마트폰 프레임 · 순공 시간 원형 그래프)",
-                p: "내공 앱 기반으로 순공 시간을 분 단위로 측정하고, 매일 학부모 리포트가 자동 발송됩니다.",
-                q: "돈 값을 했는가?에 데이터로 답합니다" },
-              { t: "사람의 힘", src: "images/why-people.jpg",
-                img: "멘토와 학생 1:1 지도 장면\n(책상 옆 자연스러운 연출)",
-                p: "연세대 의·치·약대 재학생 멘토가 학생 6명당 1명 배정 + 생활지도사 · 심리치료사 상주.",
-                q: "24시간 밀착 관리" },
+              {
+                t: "공간의 힘",
+                src: "images/why-space.jpg",
+                img: "연세대 송도 캠퍼스 건물 전경",
+                problem: "오래된 빌라 형태의 연수원? 밥은 잘 나오나?",
+                hook: "쾌적하고 안전한 공간",
+                p: "산속 정체불명의 연수원이 아닙니다. 연세대 기숙사와 강의실을 100% 그대로 사용합니다.",
+              },
+              {
+                t: "시스템의 힘",
+                src: "images/why-system.jpg",
+                img: "내공 앱 순공 측정 화면",
+                problem: "수기로 작성된 알림장... 진짜 공부를 했을까?",
+                hook: "직접 확인하는 공부 시간",
+                p: "'내공에듀' 앱의 분 단위 정밀 측정으로 매일 밤 데이터 리포트를 부모님께 공유합니다.",
+              },
+              {
+                t: "사람의 힘",
+                src: "images/why-people.jpg",
+                img: "멘토와 학생 밀착 지도 장면",
+                problem: "요즘은 멘탈관리가 더 중요하다던데...",
+                hook: "검증된 멘토",
+                p: "최상위권 공부 비법을 가진 연세대 재학생 멘토가 1:6 형태로 24시간 밀착 마크합니다. 생활지도사 · 심리치료사 상주.",
+              },
             ].map((c, i) => (
               <div key={i} className={`why-card reveal reveal-delay-${i + 1}`}>
-                <PH label={c.img} src={c.src} />
                 <div className="why-card-body">
-                  <h3 className="h3 navy-text">{c.t}</h3>
+                  <div className="why-card-problem">{c.problem}</div>
+                  <h3 className="h3 navy-text">{c.hook}</h3>
                   <p>{c.p}</p>
-                  <div className="why-quote">“{c.q}”</div>
                 </div>
+                <PH label={c.img} src={c.src} />
               </div>
             ))}
           </div>
@@ -2804,7 +2824,7 @@ function Go3Page() {
           </div>
           <div className="report reveal">
             <div className="report-text">
-              <h3>“돈 값을 했는가?”<br/>에 데이터로 답합니다</h3>
+              <h3>"돈 값을 했는가?"<br/>에 데이터로 답합니다</h3>
               <p>추측이 아닌 기록. 감정이 아닌 숫자.<br/>매일 저녁 학부모에게 자동 발송되는 리포트는 다음을 포함합니다.</p>
               <ul>
                 <li>총 순공 시간 · 목표 달성률</li>
