@@ -452,14 +452,25 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: var(--navy);
   color: var(--white);
 }
-.ceo-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0;
-  align-items: stretch;
-  min-height: 540px;
+.ceo-photo-full {
+  width: 100%;
+  max-height: 680px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
-.ceo-photo { position: relative; overflow: hidden; }
-.ceo-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.ceo-photo-full img {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+@media (max-width: 767px) {
+  .ceo-photo-full { max-height: none; }
+  .ceo-photo-full img { width: 100%; object-position: center center; }
+}
 .ceo-text {
   padding: clamp(32px, 5vw, 72px);
   display: flex; flex-direction: column; justify-content: center;
@@ -1190,11 +1201,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .mentor-grid { grid-template-columns: repeat(2, 1fr); }
   .outcomes { grid-template-columns: 1fr; }
   .trust-grid { grid-template-columns: 1fr; }
-  .ceo-grid { grid-template-columns: 1fr; min-height: 0; }
-  .ceo-photo { aspect-ratio: 3/4; max-height: 480px; }
-  .ceo-text { border-left: none; border-top: 1px solid rgba(196,162,94,0.4); padding: 36px 24px; }
-  .ceo-quote { font-size: 18px; }
-  .ceo-video { width: 100%; justify-content: center; }
   .pillar-body { grid-template-columns: 1fr; }
   .report { grid-template-columns: 1fr; }
   .info-session { grid-template-columns: 1fr; }
@@ -2460,28 +2466,8 @@ function HubPage() {
 
       {/* H-S4 CEO */}
       <section className="ceo">
-        <div className="ceo-grid">
-          <div className="ceo-photo"><img src="images/ceo.jpg" alt="내공에듀 대표 포트레이트" /></div>
-          <div className="ceo-text">
-            <div className="eyebrow" style={{ marginBottom: 24 }}>ABOUT US</div>
-            <p className="ceo-quote">
-              아이들의 가능성을 숫자로 증명하는 것,<br/>
-              그것이 이 캠프를 만든 이유입니다.
-            </p>
-            <div className="ceo-divider" />
-            <div className="ceo-name">[대표자명]</div>
-            <div className="ceo-role">내공에듀 대표</div>
-            <ul className="ceo-list">
-              <li>경력 1 — 플레이스홀더</li>
-              <li>경력 2 — 플레이스홀더</li>
-              <li>경력 3 — 플레이스홀더</li>
-              <li>경력 4 — 플레이스홀더</li>
-            </ul>
-            <a className="ceo-video" href="#">
-              <span className="play">▶</span>
-              대표 인터뷰 영상 보기
-            </a>
-          </div>
+        <div className="ceo-photo-full">
+          <img src="images/ceo.jpg" alt="내공에듀 대표 포트레이트" />
         </div>
       </section>
 
