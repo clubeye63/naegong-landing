@@ -516,22 +516,38 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .target-card {
   background: var(--white);
   box-shadow: var(--shadow-md);
+  border-radius: 16px;
   display: flex; flex-direction: column;
+  overflow: hidden;
   transition: transform .3s ease, box-shadow .3s ease;
   cursor: pointer;
 }
 .target-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.target-card .ph { height: 320px; }
-.target-body { padding: 32px; display: flex; flex-direction: column; gap: 12px; }
-.target-name { font-size: 24px; font-weight: 800; color: var(--navy); letter-spacing: -0.01em; }
-.target-hook { font-size: 16px; color: var(--ink-2); line-height: 1.65; }
-.target-meta { font-size: 13px; color: var(--muted); padding-top: 12px; border-top: 1px solid var(--line); }
-.target-more {
-  margin-top: 12px; display: inline-flex; align-items: center; gap: 8px;
-  color: var(--gold); font-weight: 600; font-size: 15px;
+.target-card .ph { height: 260px; flex-shrink: 0; border-radius: 0; }
+.target-body { padding: 28px 28px 24px; display: flex; flex-direction: column; gap: 0; }
+.target-tag {
+  display: inline-block; align-self: flex-start;
+  background: var(--navy); color: var(--white);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 6px 14px; border-radius: 999px;
+  margin-bottom: 14px;
 }
-.target-more::after { content: "→"; transition: transform .2s ease; }
-.target-card:hover .target-more::after { transform: translateX(4px); }
+.target-meta {
+  font-size: 13px; color: var(--muted);
+  display: flex; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.target-name { font-size: clamp(20px, 2vw, 26px); font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 12px; }
+.target-hook { font-size: 15px; color: var(--ink-2); line-height: 1.7; margin-bottom: 24px; }
+.target-more {
+  display: block; text-align: center;
+  background: #D9CBBB; color: var(--navy);
+  font-weight: 700; font-size: 16px;
+  padding: 16px; border-radius: 10px;
+  margin-top: auto;
+  transition: background .2s;
+}
+.target-card:hover .target-more { background: #C9B8A4; }
 
 /* Comparison table */
 .cmp {
@@ -2478,21 +2494,29 @@ function HubPage() {
             <a className="target-card reveal" href="#/go3" onClick={(e) => { e.preventDefault(); window.location.hash = "#/go3"; window.scrollTo(0, 0); }}>
               <PH label="강의실에서 모의고사 집중 중인 고3 학생" src="images/target-go3.jpg" />
               <div className="target-body">
-                <div className="eyebrow">FOR GO3</div>
-                <div className="target-name">고3 수능 실전 하드트레이닝 캠프</div>
-                <div className="target-hook">수능까지 남은 시간, 3주가 승부를 가릅니다.</div>
-                <div className="target-meta">7.20 ~ 8.11 · 21일 · 정원 70명</div>
-                <div className="target-more">자세히 보기</div>
+                <div className="target-tag">고3 하드 트레이닝 캠프</div>
+                <div className="target-meta">
+                  <span>7월 20일~8월 11일</span>
+                  <span>정원 70명</span>
+                  <span>얼리버드 선착순 혜택</span>
+                </div>
+                <div className="target-name">고3 수능 실전 캠프</div>
+                <div className="target-hook">3주간 매일 수능 환경을 연습하며,<br/>성적 뿐만 아니라 바이오리듬, 멘탈까지 훈련합니다.</div>
+                <div className="target-more">자세히 보기 &gt;</div>
               </div>
             </a>
             <a className="target-card reveal reveal-delay-2" href="#/pre-go1" onClick={(e) => { e.preventDefault(); window.location.hash = "#/pre-go1"; window.scrollTo(0, 0); }}>
               <PH label="예비 고1 학생" src="images/target-preg1.jpg" />
               <div className="target-body">
-                <div className="eyebrow">FOR PRE-GO1</div>
-                <div className="target-name">예비 고1 습관 혁명 캠프</div>
-                <div className="target-hook">21일이면 바뀝니다. 스스로 공부하는 아이로.</div>
-                <div className="target-meta">7.20 ~ 8.11 · 21일 · 정원 70명</div>
-                <div className="target-more">자세히 보기</div>
+                <div className="target-tag">예비 고1 습관 혁명 캠프</div>
+                <div className="target-meta">
+                  <span>7월 20일~8월 11일</span>
+                  <span>정원 70명</span>
+                  <span>얼리버드 선착순 혜택</span>
+                </div>
+                <div className="target-name">예비 고1 습관 캠프</div>
+                <div className="target-hook">3주간 스스로 공부하는 습관을 만들며,<br/>고등학교 입학 전 학습 루틴을 완성합니다.</div>
+                <div className="target-more">자세히 보기 &gt;</div>
               </div>
             </a>
           </div>
