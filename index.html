@@ -182,6 +182,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--white); font-weight: 800; letter-spacing: -0.01em;
   font-size: 17px;
 }
+.nav-logo img { height: 36px; width: auto; display: block; }
 .nav-logo-mark {
   width: 28px; height: 28px;
   background: var(--gold); color: var(--navy);
@@ -2075,8 +2076,7 @@ function Nav({ page, onNav }) {
       <nav className={`nav ${solid ? "nav--solid" : ""}`}>
         <div className="nav-inner">
           <a href="#/" onClick={go("#/")} className="nav-logo">
-            <span className="nav-logo-mark">내</span>
-            <span>내공에듀</span>
+            <img src="images/logo.png" alt="내공에듀 로고" />
           </a>
           <div className="nav-menu">
             {menus.map((m) => (
@@ -2186,8 +2186,7 @@ function Footer() {
         <div className="foot-grid">
           <div>
             <div className="foot-logo">
-              <span className="nav-logo-mark">내</span>
-              <span>내공에듀</span>
+              <img src="images/logo.png" alt="내공에듀 로고" style={{ height: 36, width: "auto", display: "block" }} />
             </div>
             <p style={{ color: "#9AA6BA", fontSize: 13, lineHeight: 1.7, margin: 0 }}>
               연세대 송도 국제캠퍼스에서 운영하는<br/>
