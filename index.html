@@ -437,17 +437,29 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding-left: 56px;
 }
 .mou-banner {
-  margin: 48px 0 32px;
+  margin: 48px 0 24px;
   border-radius: 8px;
   overflow: hidden;
+  position: relative;
 }
 .mou-banner img {
   width: 100%;
   height: auto;
   display: block;
 }
+.mou-banner-link {
+  position: absolute;
+  right: 3%;
+  top: 15%;
+  width: 31%;
+  height: 70%;
+  border-radius: 50px;
+  cursor: pointer;
+  display: block;
+}
 @media (max-width: 768px) {
-  .mou-banner { margin: 32px 0 24px; border-radius: 6px; }
+  .mou-banner { margin: 32px 0 16px; border-radius: 6px; }
+  .mou-banner-link { right: 4%; width: 40%; }
 }
 
 /* CEO section */
@@ -2450,9 +2462,7 @@ function HubPage() {
 
           <div className="mou-banner">
             <img src="images/mou-banner.jpg" alt="연세대학교 송도캠퍼스 공식 MOU 협약 배너" />
-          </div>
-          <div style={{ textAlign: "center", marginTop: 8 }}>
-            <a className="btn btn-light btn-lg" href="#">5월 현장 설명회 신청하기 →</a>
+            <a className="mou-banner-link" href="#consult" onClick={(e) => { e.preventDefault(); const el = document.getElementById("consult"); if(el) el.scrollIntoView({ behavior: "smooth" }); }} aria-label="5월 현장 설명회 신청하기" />
           </div>
         </div>
       </section>
