@@ -1124,6 +1124,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .report-text li::before {
   content: "✓"; position: absolute; left: 0; color: var(--gold); font-weight: 700;
 }
+.report-img-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.report-img-wrap img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+@media (max-width: 767px) {
+  .report-img-wrap img { max-width: 260px; }
+}
 .report-mock {
   aspect-ratio: 9/16;
   max-height: 480px;
@@ -2964,7 +2980,9 @@ function Go3Page() {
                 <li>다음 날 학습 계획</li>
               </ul>
             </div>
-            <ReportMock />
+            <div className="report-img-wrap">
+              <img src="images/report-mock.png" alt="내공에듀 학부모 리포트 앱 화면" />
+            </div>
           </div>
         </div>
       </section>
