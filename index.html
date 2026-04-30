@@ -2695,7 +2695,7 @@ function Go3Page() {
             </div>
             <div className="hero-ctas">
               <button className="btn btn-primary btn-lg" onClick={() => window.__openConsultModal && window.__openConsultModal()}>1:1 상담 신청하기</button>
-              <a className="btn btn-secondary btn-lg" href="#recruit">모집요강 보기</a>
+              <a className="btn btn-secondary btn-lg" href="#recruit" onClick={(e) => { e.preventDefault(); const el = document.getElementById("recruit"); if(el) el.scrollIntoView({ behavior: "smooth" }); }}>모집요강 보기</a>
             </div>
           </div>
         </div>
