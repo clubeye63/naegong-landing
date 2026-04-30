@@ -2172,7 +2172,7 @@ function CTASection({ kicker }) {
         </div>
         <div className="cta-actions">
           <button className="btn btn-primary btn-lg" onClick={openModal}>1:1 상담 신청하기</button>
-          <a className="btn btn-secondary btn-lg" href="#">현장 설명회 예약</a>
+          <button className="btn btn-secondary btn-lg" onClick={() => window.__openEventModal && window.__openEventModal()}>현장 설명회 예약</button>
         </div>
       </div>
     </section>
@@ -3275,7 +3275,7 @@ function Go3Page() {
               <div className="eyebrow" style={{ marginBottom: 12 }}>OPEN HOUSE</div>
               <h3>현장 설명회 안내</h3>
               <p style={{ marginTop: 12 }}>기숙사·강의실·식당을 직접 둘러보고, 대표 및 멘토와 30분 Q&A를 진행합니다. 좌석이 제한되어 사전 예약이 필요합니다.</p>
-              <a className="btn btn-primary" href="#" style={{ marginTop: 20 }}>설명회 예약하기</a>
+              <button className="btn btn-primary" style={{ marginTop: 20 }} onClick={() => window.__openEventModal && window.__openEventModal()}>설명회 예약하기</button>
             </div>
             <div className="info-dates">
               {[
@@ -3817,7 +3817,7 @@ function PreGo1Page() {
               <div className="eyebrow" style={{ marginBottom: 12 }}>OPEN HOUSE</div>
               <h3>현장 설명회 안내</h3>
               <p style={{ marginTop: 12 }}>기숙사 · 강의실 · 식당을 직접 둘러보고, 대표 및 멘토와 30분 Q&A를 진행합니다. 좌석이 제한되어 사전 예약이 필요합니다.</p>
-              <a className="btn btn-primary" href="#" style={{ marginTop: 20 }}>설명회 예약하기</a>
+              <button className="btn btn-primary" style={{ marginTop: 20 }} onClick={() => window.__openEventModal && window.__openEventModal()}>설명회 예약하기</button>
             </div>
             <div className="info-dates">
               {[
@@ -4096,6 +4096,97 @@ function PrivacyPage() {
   );
 }
 
+// ============ Event Modal (현장 설명회 신청) ============
+function EventModal({ open, onClose }) {
+  const [form, setForm] = React.useState({ name:'', phone:'', grade:'고3', attend:'학생 단독' });
+  const [status, setStatus] = React.useState('idle');
+
+  React.useEffect(() => {
+    if (open) { document.body.style.overflow = 'hidden'; setStatus('idle'); }
+    else document.body.style.overflow = '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.phone.trim()) return;
+    setStatus('loading');
+    const payload = {
+      ...form,
+      sheetTarget: '시트2',
+      type: '현장설명회',
+      event_date: '2026.06.13(토)',
+      ...getUTM(),
+      page: window.location.hash || '#/',
+      submitted_at: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+    };
+    try {
+      const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
+      navigator.sendBeacon(APPS_SCRIPT_URL, blob);
+      setStatus('success');
+    } catch(err) { setStatus('error'); }
+  };
+
+  const handleOverlay = (e) => { if (e.target === e.currentTarget) onClose(); };
+
+  return (
+    <div className={`modal-overlay ${open ? 'open' : ''}`} onClick={handleOverlay}>
+      <div className="modal-box">
+        <div className="modal-head">
+          <div>
+            <h3>현장 설명회 신청</h3>
+            <p>📅 2026.06.13(토) · 연세대 송도 국제캠퍼스</p>
+          </div>
+          <button className="modal-close" onClick={onClose} aria-label="닫기">✕</button>
+        </div>
+        {status === 'success' ? (
+          <div className="form-success">
+            <div className="success-icon">✓</div>
+            <h4>신청이 완료됐습니다!</h4>
+            <p>입력하신 연락처로<br/>일정 안내 문자를 발송해 드립니다.</p>
+            <button className="btn btn-primary" style={{marginTop:8}} onClick={onClose}>확인</button>
+          </div>
+        ) : (
+          <form className="modal-body" onSubmit={handleSubmit}>
+            <div className="form-row">
+              <label>신청자 이름 <span>*</span></label>
+              <input className="form-input" type="text" placeholder="홍길동" value={form.name} onChange={set('name')} required />
+            </div>
+            <div className="form-row">
+              <label>연락처 <span>*</span></label>
+              <input className="form-input" type="tel" placeholder="010-0000-0000" value={form.phone} onChange={set('phone')} required />
+            </div>
+            <div className="form-row">
+              <label>학년 <span>*</span></label>
+              <select className="form-select" value={form.grade} onChange={set('grade')}>
+                <option value="고3">고3 (2027 수능)</option>
+                <option value="중3">중3 (현 중3)</option>
+                <option value="기타">기타</option>
+              </select>
+            </div>
+            <div className="form-row">
+              <label>참석 형태</label>
+              <select className="form-select" value={form.attend} onChange={set('attend')}>
+                <option value="학생 단독">학생 단독</option>
+                <option value="보호자 동반">보호자 동반</option>
+              </select>
+            </div>
+            <p style={{fontSize:12, color:'var(--muted)', margin:'4px 0 8px', lineHeight:1.6}}>
+              수집된 정보는 설명회 안내 목적으로만 사용됩니다.
+            </p>
+            <button className="btn btn-primary" type="submit" style={{width:'100%', marginTop:4}} disabled={status==='loading'}>
+              {status === 'loading' ? '신청 중...' : '설명회 신청하기'}
+            </button>
+            {status === 'error' && <p style={{color:'#e53e3e', fontSize:13, marginTop:8, textAlign:'center'}}>오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>}
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function useHashRoute() {
   const [hash, setHash] = useState(() => window.location.hash || "#/");
   useEffect(() => {
@@ -4113,8 +4204,10 @@ function App() {
   const hash = useHashRoute();
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [modalOpen, setModalOpen] = useState(false);
+  const [eventModalOpen, setEventModalOpen] = useState(false);
   const defaultCamp = hash.startsWith("#/go3") ? "고3 수능 실전 하드트레이닝" : hash.startsWith("#/pre-go1") ? "중3 습관 혁명" : "미정";
   useEffect(() => { window.__openConsultModal = () => setModalOpen(true); }, []);
+  useEffect(() => { window.__openEventModal = () => setEventModalOpen(true); }, []);
 
   useEffect(() => {
     const r = document.documentElement.style;
@@ -4146,6 +4239,7 @@ function App() {
       <Page key={hash} />
       <FloatingCTA />
       <ConsultModal open={modalOpen} onClose={() => setModalOpen(false)} defaultCamp={defaultCamp} />
+      <EventModal open={eventModalOpen} onClose={() => setEventModalOpen(false)} />
       <TweaksPanel title="Tweaks">
         <TweakSection label="Colors">
           <TweakColor label="Navy (primary)"
