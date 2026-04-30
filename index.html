@@ -1183,19 +1183,28 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .trust-card {
   background: var(--white);
-  padding: 32px 28px;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--line);
-  display: flex; flex-direction: column; gap: 12px;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
 }
 .trust-icon {
-  width: 44px; height: 44px;
-  background: #F8F4EC; color: var(--gold);
-  display: grid; place-items: center;
-  margin-bottom: 4px;
+  width: 100%; height: 180px;
+  background: linear-gradient(150deg, #EBF0F9 0%, #DDE5F4 100%);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.trust-card-body {
+  padding: 24px 28px 32px;
+  display: flex; flex-direction: column; gap: 10px;
 }
 .trust-card h4 { margin: 0; font-size: 17px; font-weight: 700; color: var(--navy); }
 .trust-card p { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.65; }
+@media (max-width: 767px) {
+  .trust-grid { grid-template-columns: 1fr; }
+  .trust-icon { height: 150px; }
+}
 
 /* Info session */
 .info-session {
@@ -2995,14 +3004,72 @@ function Go3Page() {
           </div>
           <div className="trust-grid">
             {[
-              { icon: "🛡", t: "순공 10시간 보증", d: "일일 누적 순공 10시간 미달 시 전액 환불. 내공 앱이 분 단위로 측정합니다." },
-              { icon: "⚕", t: "24시간 안전 관리", d: "간호사 자격 생활지도사 상주 + 송도 종합병원 5분 거리 연계 + 남녀 기숙사 완전 분리." },
-              { icon: "↩", t: "투명한 환불 규정", d: "입소 전 100% 환불 · 14일 이전 일할 환불. 약관 전문을 상담 시 사전 공개합니다." },
+              {
+                t: "순공 10시간 보증",
+                d: "일일 누적 순공 10시간 미달 시 전액 환불. 내공 앱이 분 단위로 측정합니다.",
+                icon: (
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    {/* shield body */}
+                    <path d="M55 18 L80 30 L80 58 C80 72 68 82 55 87 C42 82 30 72 30 58 L30 30 Z" fill="#0B2A5B"/>
+                    <path d="M55 24 L75 34 L75 58 C75 69 65 77 55 82 C45 77 35 69 35 58 L35 34 Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
+                    {/* checkmark */}
+                    <polyline points="43,55 51,63 67,47" stroke="#C4A25E" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    {/* clock indicator bottom right */}
+                    <circle cx="74" cy="74" r="16" fill="#C4A25E"/>
+                    <circle cx="74" cy="74" r="11" stroke="#0B2A5B" strokeWidth="1.5" fill="white"/>
+                    <line x1="74" y1="68" x2="74" y2="74" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round"/>
+                    <line x1="74" y1="74" x2="79" y2="77" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round"/>
+                    <circle cx="74" cy="74" r="2" fill="#0B2A5B"/>
+                  </svg>
+                )
+              },
+              {
+                t: "24시간 안전 관리",
+                d: "간호사 자격 생활지도사 상주 + 송도 종합병원 5분 거리 연계 + 남녀 기숙사 완전 분리.",
+                icon: (
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    <circle cx="55" cy="55" r="38" fill="#0B2A5B"/>
+                    {/* cross */}
+                    <rect x="47" y="32" width="16" height="46" rx="4" fill="white"/>
+                    <rect x="32" y="47" width="46" height="16" rx="4" fill="white"/>
+                    {/* 24 badge */}
+                    <circle cx="76" cy="34" r="14" fill="#C4A25E"/>
+                    <text x="76" y="39" textAnchor="middle" fill="white" fontSize="12" fontWeight="800" fontFamily="sans-serif">24h</text>
+                    {/* pulse line at bottom */}
+                    <polyline points="22,80 30,80 35,70 40,90 46,68 52,80 58,80 63,73 68,80 88,80" stroke="#C4A25E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  </svg>
+                )
+              },
+              {
+                t: "투명한 환불 규정",
+                d: "입소 전 100% 환불 · 14일 이전 일할 환불. 약관 전문을 상담 시 사전 공개합니다.",
+                icon: (
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    <circle cx="55" cy="55" r="38" fill="#0B2A5B"/>
+                    {/* document */}
+                    <rect x="36" y="28" width="30" height="38" rx="4" fill="white" opacity="0.9"/>
+                    <line x1="42" y1="38" x2="60" y2="38" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                    <line x1="42" y1="44" x2="60" y2="44" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                    <line x1="42" y1="50" x2="54" y2="50" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                    {/* return arrow */}
+                    <circle cx="68" cy="68" r="18" fill="#C4A25E"/>
+                    <path d="M60 68 A8 8 0 1 1 68 76" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                    <polyline points="57,63 60,68 65,65" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    {/* 100% text */}
+                    <text x="68" y="72" textAnchor="middle" fill="white" fontSize="9" fontWeight="800" fontFamily="sans-serif">100%</text>
+                  </svg>
+                )
+              },
             ].map((t, i) => (
               <div className={`trust-card reveal reveal-delay-${i}`} key={i}>
                 <div className="trust-icon">{t.icon}</div>
-                <h4>{t.t}</h4>
-                <p>{t.d}</p>
+                <div className="trust-card-body">
+                  <h4>{t.t}</h4>
+                  <p>{t.d}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -3328,14 +3395,63 @@ function PreGo1Page() {
           </div>
           <div className="trust-grid">
             {[
-              { icon: "🛡", t: "순공 10시간 보증", d: "3주차 기준 일일 순공 10시간 미달 시 전액 환불. 내공 앱이 분 단위로 측정합니다." },
-              { icon: "⚕", t: "24시간 안전 관리", d: "간호사 자격 생활지도사 상주 + 송도 종합병원 5분 거리 연계 + 남녀 기숙사 완전 분리." },
-              { icon: "↩", t: "투명한 환불 규정", d: "입소 전 100% 환불 · 14일 이전 일할 환불. 약관 전문을 상담 시 사전 공개합니다." },
+              {
+                t: "순공 10시간 보증",
+                d: "3주차 기준 일일 순공 10시간 미달 시 전액 환불. 내공 앱이 분 단위로 측정합니다.",
+                icon: (
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    <path d="M55 18 L80 30 L80 58 C80 72 68 82 55 87 C42 82 30 72 30 58 L30 30 Z" fill="#0B2A5B"/>
+                    <path d="M55 24 L75 34 L75 58 C75 69 65 77 55 82 C45 77 35 69 35 58 L35 34 Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
+                    <polyline points="43,55 51,63 67,47" stroke="#C4A25E" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <circle cx="74" cy="74" r="16" fill="#C4A25E"/>
+                    <circle cx="74" cy="74" r="11" stroke="#0B2A5B" strokeWidth="1.5" fill="white"/>
+                    <line x1="74" y1="68" x2="74" y2="74" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round"/>
+                    <line x1="74" y1="74" x2="79" y2="77" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round"/>
+                    <circle cx="74" cy="74" r="2" fill="#0B2A5B"/>
+                  </svg>
+                )
+              },
+              {
+                t: "24시간 안전 관리",
+                d: "간호사 자격 생활지도사 상주 + 송도 종합병원 5분 거리 연계 + 남녀 기숙사 완전 분리.",
+                icon: (
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    <circle cx="55" cy="55" r="38" fill="#0B2A5B"/>
+                    <rect x="47" y="32" width="16" height="46" rx="4" fill="white"/>
+                    <rect x="32" y="47" width="46" height="16" rx="4" fill="white"/>
+                    <circle cx="76" cy="34" r="14" fill="#C4A25E"/>
+                    <text x="76" y="39" textAnchor="middle" fill="white" fontSize="12" fontWeight="800" fontFamily="sans-serif">24h</text>
+                    <polyline points="22,80 30,80 35,70 40,90 46,68 52,80 58,80 63,73 68,80 88,80" stroke="#C4A25E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  </svg>
+                )
+              },
+              {
+                t: "투명한 환불 규정",
+                d: "입소 전 100% 환불 · 14일 이전 일할 환불. 약관 전문을 상담 시 사전 공개합니다.",
+                icon: (
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    <circle cx="55" cy="55" r="38" fill="#0B2A5B"/>
+                    <rect x="36" y="28" width="30" height="38" rx="4" fill="white" opacity="0.9"/>
+                    <line x1="42" y1="38" x2="60" y2="38" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                    <line x1="42" y1="44" x2="60" y2="44" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                    <line x1="42" y1="50" x2="54" y2="50" stroke="#0B2A5B" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+                    <circle cx="68" cy="68" r="18" fill="#C4A25E"/>
+                    <path d="M60 68 A8 8 0 1 1 68 76" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                    <polyline points="57,63 60,68 65,65" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <text x="68" y="72" textAnchor="middle" fill="white" fontSize="9" fontWeight="800" fontFamily="sans-serif">100%</text>
+                  </svg>
+                )
+              },
             ].map((t, i) => (
               <div className={`trust-card reveal reveal-delay-${i}`} key={i}>
                 <div className="trust-icon">{t.icon}</div>
-                <h4>{t.t}</h4>
-                <p>{t.d}</p>
+                <div className="trust-card-body">
+                  <h4>{t.t}</h4>
+                  <p>{t.d}</p>
+                </div>
               </div>
             ))}
           </div>
