@@ -949,20 +949,23 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .strategy-card {
   background: var(--white);
   border-radius: 20px;
-  padding: 36px 28px;
+  padding: 0;
   box-shadow: 0 4px 24px rgba(11,42,91,0.08);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  overflow: hidden;
 }
 .strategy-icon {
-  width: 60px; height: 60px;
-  background: var(--navy);
-  border-radius: 16px;
+  width: 100%;
+  height: 190px;
+  background: linear-gradient(150deg, #EBF0F9 0%, #DDE5F4 100%);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.strategy-icon svg { color: var(--gold); }
+.strategy-card-body {
+  padding: 24px 28px 32px;
+  display: flex; flex-direction: column; gap: 10px;
+}
 .strategy-no {
   font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
   color: var(--gold);
@@ -981,6 +984,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .strategy-desc .hi { color: var(--navy); font-weight: 600; }
 @media (max-width: 767px) {
   .strategy-grid { grid-template-columns: 1fr; }
+  .strategy-icon { height: 160px; }
 }
 
 /* Timeline weeks */
@@ -2706,8 +2710,30 @@ function Go3Page() {
                 t: "수능 생체리듬 동기화",
                 desc: (<p className="strategy-desc"><span className="hi">매일 아침 08:10 입실.</span> 실제 수능 교시별 시간표와 동일한 순서로 학습합니다. 3주간 반복하면, 수능 당일이 익숙한 하루가 됩니다.</p>),
                 icon: (
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    {/* outer glow ring */}
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    {/* clock body */}
+                    <circle cx="55" cy="55" r="38" fill="#0B2A5B"/>
+                    {/* tick marks */}
+                    <line x1="55" y1="22" x2="55" y2="30" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+                    <line x1="55" y1="80" x2="55" y2="88" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+                    <line x1="22" y1="55" x2="30" y2="55" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+                    <line x1="80" y1="55" x2="88" y2="55" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+                    <line x1="33" y1="33" x2="39" y2="39" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.5"/>
+                    <line x1="71" y1="71" x2="77" y2="77" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.5"/>
+                    <line x1="33" y1="77" x2="39" y2="71" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.5"/>
+                    <line x1="71" y1="39" x2="77" y2="33" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.5"/>
+                    {/* hour hand */}
+                    <line x1="55" y1="55" x2="55" y2="34" stroke="white" strokeWidth="3.5" strokeLinecap="round"/>
+                    {/* minute hand (pointing ~8:10) */}
+                    <line x1="55" y1="55" x2="72" y2="48" stroke="#C4A25E" strokeWidth="3.5" strokeLinecap="round"/>
+                    {/* center dot */}
+                    <circle cx="55" cy="55" r="4" fill="#C4A25E"/>
+                    {/* alarm arc */}
+                    <path d="M36 30 Q55 20 74 30" stroke="#C4A25E" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                    <line x1="36" y1="30" x2="32" y2="25" stroke="#C4A25E" strokeWidth="2.5" strokeLinecap="round"/>
+                    <line x1="74" y1="30" x2="78" y2="25" stroke="#C4A25E" strokeWidth="2.5" strokeLinecap="round"/>
                   </svg>
                 )
               },
@@ -2716,8 +2742,20 @@ function Go3Page() {
                 t: "3일 주기 무한 반복 훈련",
                 desc: (<p className="strategy-desc"><span className="hi">2일 집중 학습 + 1일 실전 모의고사</span> 사이클을 21일간 7회 반복합니다. 3일에 한 번 수능을 치르는 경험이 실전 긴장감과 실수를 최소화합니다.</p>),
                 icon: (
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    {/* outer ring */}
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    {/* background circle */}
+                    <circle cx="55" cy="55" r="38" fill="#0B2A5B"/>
+                    {/* circular arrows */}
+                    <path d="M30 55 A25 25 0 0 1 70 35" stroke="white" strokeWidth="4" strokeLinecap="round" fill="none"/>
+                    <path d="M80 55 A25 25 0 0 1 40 75" stroke="#C4A25E" strokeWidth="4" strokeLinecap="round" fill="none"/>
+                    {/* arrowheads */}
+                    <polyline points="66,28 70,35 63,37" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <polyline points="44,82 40,75 47,73" stroke="#C4A25E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    {/* center "3" label */}
+                    <rect x="44" y="43" width="22" height="24" rx="6" fill="#C4A25E"/>
+                    <text x="55" y="59" textAnchor="middle" fill="white" fontSize="14" fontWeight="800" fontFamily="sans-serif">3일</text>
                   </svg>
                 )
               },
@@ -2726,17 +2764,35 @@ function Go3Page() {
                 t: "데이터 기반 약점 정밀 타격",
                 desc: (<p className="strategy-desc">내공 앱이 <span className="hi">과목별·유형별 취약 파트</span>를 분석합니다. 구체적 진단 → 맞춤형 분반 배정 → 즉일 피드백으로 빠르게 약점을 제거합니다.</p>),
                 icon: (
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                  <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+                    {/* outer glow */}
+                    <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
+                    {/* background */}
+                    <circle cx="55" cy="55" r="38" fill="#0B2A5B"/>
+                    {/* target rings */}
+                    <circle cx="55" cy="55" r="24" stroke="white" strokeWidth="2" opacity="0.3" fill="none"/>
+                    <circle cx="55" cy="55" r="16" stroke="white" strokeWidth="2" opacity="0.5" fill="none"/>
+                    <circle cx="55" cy="55" r="7" fill="#C4A25E"/>
+                    {/* crosshair lines */}
+                    <line x1="55" y1="22" x2="55" y2="44" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.7"/>
+                    <line x1="55" y1="66" x2="55" y2="88" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.7"/>
+                    <line x1="22" y1="55" x2="44" y2="55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.7"/>
+                    <line x1="66" y1="55" x2="88" y2="55" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.7"/>
+                    {/* data bars (bottom right corner) */}
+                    <rect x="68" y="76" width="6" height="14" rx="2" fill="#C4A25E"/>
+                    <rect x="77" y="70" width="6" height="20" rx="2" fill="#C4A25E" opacity="0.7"/>
+                    <rect x="86" y="64" width="6" height="26" rx="2" fill="white" opacity="0.6"/>
                   </svg>
                 )
               },
             ].map((p, i) => (
               <div className={`strategy-card reveal reveal-delay-${i}`} key={p.n}>
                 <div className="strategy-icon">{p.icon}</div>
-                <div className="strategy-no">{p.n}</div>
-                <div className="strategy-title">{p.t}</div>
-                {p.desc}
+                <div className="strategy-card-body">
+                  <div className="strategy-no">{p.n}</div>
+                  <div className="strategy-title">{p.t}</div>
+                  {p.desc}
+                </div>
               </div>
             ))}
           </div>
