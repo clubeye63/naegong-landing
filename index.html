@@ -1966,7 +1966,7 @@ function ConsultModal({ open, onClose, defaultCamp }) {
               <label>학년 <span>*</span></label>
               <select className="form-select" value={form.grade} onChange={set('grade')}>
                 <option value="고3">고3 (2027 수능)</option>
-                <option value="예비고1">예비고1 (현 중3)</option>
+                <option value="중3">중3 (현 중3)</option>
                 <option value="기타">기타</option>
               </select>
             </div>
@@ -1974,7 +1974,7 @@ function ConsultModal({ open, onClose, defaultCamp }) {
               <label>관심 캠프</label>
               <select className="form-select" value={form.camp} onChange={set('camp')}>
                 <option value="고3 수능 실전 하드트레이닝">고3 수능 실전 하드트레이닝</option>
-                <option value="예비고1 습관 혁명">예비고1 습관 혁명</option>
+                <option value="중3 습관 혁명">중3 습관 혁명</option>
                 <option value="미정">아직 미정</option>
               </select>
             </div>
@@ -2045,12 +2045,12 @@ function Nav({ page, onNav }) {
 
   const menus = page === "hub" ? [
     { href: "#/go3", label: "고3 캠프" },
-    { href: "#/pre-go1", label: "예비고1 캠프" },
+    { href: "#/pre-go1", label: "중3 캠프" },
     { href: "#recruit", label: "모집요강", anchor: true },
     { href: "#faq", label: "FAQ", anchor: true },
   ] : page === "go3" ? [
     { href: "#/", label: "← 메인" },
-    { href: "#/pre-go1", label: "예비고1 캠프" },
+    { href: "#/pre-go1", label: "중3 캠프" },
     { href: "#recruit", label: "모집요강", anchor: true },
     { href: "#faq", label: "FAQ", anchor: true },
   ] : [
@@ -2558,13 +2558,13 @@ function HubPage() {
             </a>
             <a className="target-card reveal reveal-delay-2" href="#/pre-go1" onClick={(e) => { e.preventDefault(); window.location.hash = "#/pre-go1"; window.scrollTo(0, 0); }}>
               <div className="target-body">
-                <div className="target-tag">예비 고1 습관 혁명 캠프</div>
+                <div className="target-tag">중3 습관 혁명 캠프</div>
                 <div className="target-meta">
                   <span>7월 20일~8월 11일</span>
                   <span>정원 70명</span>
                   <span>얼리버드 선착순 혜택</span>
                 </div>
-                <div className="target-name">예비 고1 습관 캠프</div>
+                <div className="target-name">중3 습관 캠프</div>
                 <div className="target-hook">3주간 스스로 공부하는 습관을 만들며,<br/>고등학교 입학 전 학습 루틴을 완성합니다.</div>
                 <div className="target-more">자세히 보기 &gt;</div>
               </div>
@@ -2635,7 +2635,7 @@ function HubPage() {
           </div>
           <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 40, flexWrap: "wrap" }}>
             <a className="btn btn-dark btn-lg" href="#/go3" onClick={(e) => { e.preventDefault(); window.location.hash = "#/go3"; window.scrollTo(0, 0); }}>고3 캠프 상세 보기</a>
-            <a className="btn btn-dark btn-lg" href="#/pre-go1" onClick={(e) => { e.preventDefault(); window.location.hash = "#/pre-go1"; window.scrollTo(0, 0); }}>예비고1 캠프 상세 보기</a>
+            <a className="btn btn-dark btn-lg" href="#/pre-go1" onClick={(e) => { e.preventDefault(); window.location.hash = "#/pre-go1"; window.scrollTo(0, 0); }}>중3 캠프 상세 보기</a>
           </div>
         </div>
       </section>
@@ -3360,7 +3360,7 @@ function PreGo1Page() {
 
   const faqs = [
     { q: "공부 습관이 전혀 없는데 따라갈 수 있나요?", a: "그런 학생을 위한 프로그램입니다. 1주차는 '적응 주간'으로 매일 4시간부터 시작해, 2주차 8시간, 3주차 10시간으로 점진적으로 올립니다. 멘토가 1:6으로 페이스를 조절합니다." },
-    { q: "예비 고1에게 10시간 순공은 무리 아닌가요?", a: "10시간은 3주차 목표이며, 1~2주차는 단계적으로 늘어납니다. 학습 강도보다 '매일 같은 시간에 앉아있는 습관'을 만드는 것이 핵심입니다." },
+    { q: "중3에게 10시간 순공은 무리 아닌가요?", a: "10시간은 3주차 목표이며, 1~2주차는 단계적으로 늘어납니다. 학습 강도보다 '매일 같은 시간에 앉아있는 습관'을 만드는 것이 핵심입니다." },
     { q: "중학교 복습과 고1 선행 중 어느 쪽에 가까운가요?", a: "개인 진단 결과에 따라 분반 운영합니다. 중등 기초가 약한 학생은 복습 중심, 상위권은 고1 예습 중심으로 맞춤 편성합니다." },
     { q: "스마트폰은 사용할 수 있나요?", a: "평일 22:00 ~ 22:30 30분간만 사용 가능합니다. 부모님과의 긴급 연락은 생활지도사를 통해 즉시 가능합니다." },
     { q: "중도에 하차하면 환불되나요?", a: "14일 이전 하차 시 잔여 일수 기준 일할 환불, 14일 이후는 환불 불가입니다." },
@@ -3374,7 +3374,7 @@ function PreGo1Page() {
       <section className="hero-split">
         <div className="hero-split-text">
           <div className="wrap">
-            <div className="eyebrow">◆ 예비 고1 습관 혁명 캠프</div>
+            <div className="eyebrow">◆ 중3 습관 혁명 캠프</div>
             <h1 className="h1">
               21일이면 바뀝니다.<br/>
               <span className="gold-text">스스로 공부하는</span> 아이로.
@@ -3841,12 +3841,12 @@ function PreGo1Page() {
         <div className="wrap">
           <div className="section-head reveal">
             <div className="eyebrow">RECRUITMENT</div>
-            <h2 className="h2 navy-text">예비 고1 캠프 모집요강</h2>
+            <h2 className="h2 navy-text">중3 캠프 모집요강</h2>
           </div>
           <div className="reveal">
             <table className="cmp">
               <tbody>
-                <tr><td>모집 대상</td><td>현 중3 학생 (예비 고1)</td></tr>
+                <tr><td>모집 대상</td><td>현 중3 학생 (중3)</td></tr>
                 <tr><td>운영 기간</td><td>2026년 7월 20일(월) ~ 8월 11일(화) · 21일</td></tr>
                 <tr><td>운영 장소</td><td>연세대학교 송도 국제캠퍼스 (인천광역시 연수구)</td></tr>
                 <tr><td>모집 정원</td><td>70명 (선착순 마감)</td></tr>
@@ -3872,7 +3872,7 @@ function PreGo1Page() {
         </div>
       </section>
 
-      <CTASection kicker="예비 고1 습관 혁명 캠프" />
+      <CTASection kicker="중3 습관 혁명 캠프" />
       <Footer />
     </div>
   );
@@ -3915,12 +3915,12 @@ function FloatingCTA() {
         </svg>
         <span style={{textAlign:'center', lineHeight:1.3}}>고3<br/>캠프</span>
       </a>
-      {/* 예비고1 캠프 */}
-      <a className="fcta-btn" href="#/pre-go1" onClick={goPage("#/pre-go1")} aria-label="예비고1 캠프 상세보기">
+      {/* 중3 캠프 */}
+      <a className="fcta-btn" href="#/pre-go1" onClick={goPage("#/pre-go1")} aria-label="중3 캠프 상세보기">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
         </svg>
-        <span style={{textAlign:'center', lineHeight:1.3}}>예비고1<br/>캠프</span>
+        <span style={{textAlign:'center', lineHeight:1.3}}>중3<br/>캠프</span>
       </a>
     </div>
   );
@@ -3955,7 +3955,7 @@ function App() {
   const hash = useHashRoute();
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [modalOpen, setModalOpen] = useState(false);
-  const defaultCamp = hash.startsWith("#/go3") ? "고3 수능 실전 하드트레이닝" : hash.startsWith("#/pre-go1") ? "예비고1 습관 혁명" : "미정";
+  const defaultCamp = hash.startsWith("#/go3") ? "고3 수능 실전 하드트레이닝" : hash.startsWith("#/pre-go1") ? "중3 습관 혁명" : "미정";
   useEffect(() => { window.__openConsultModal = () => setModalOpen(true); }, []);
 
   useEffect(() => {
@@ -4012,7 +4012,7 @@ function App() {
         </TweakSection>
         <TweakSection label="Navigation">
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[["#/", "메인 허브"], ["#/go3", "고3 캠프"], ["#/pre-go1", "예비고1 캠프"]].map(([h, l]) => (
+            {[["#/", "메인 허브"], ["#/go3", "고3 캠프"], ["#/pre-go1", "중3 캠프"]].map(([h, l]) => (
               <button key={h} className="btn btn-light"
                 onClick={() => { window.location.hash = h; }}
                 style={{ height: 36, justifyContent: "flex-start", padding: "0 12px", fontSize: 13 }}>
