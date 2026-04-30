@@ -809,10 +809,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 0;
   margin-top: 20px;
 }
-.pillar-body .ph { min-height: 320px; }
+.pillar-icon {
+  min-height: 280px;
+  background: linear-gradient(150deg, #EBF0F9 0%, #DDE5F4 100%);
+  display: flex; align-items: center; justify-content: center;
+}
 .pillar-txt { padding: 32px; display: flex; flex-direction: column; gap: 14px; }
 .pillar-txt p { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.75; }
 .pillar-txt .hi { color: var(--navy); font-weight: 600; }
+@media (max-width: 767px) {
+  .pillar-icon { min-height: 200px; }
+}
 
 /* Process steps */
 .process-steps {
@@ -3236,24 +3243,107 @@ function PreGo1Page() {
             <h2 className="h2 navy-text">21일 습관 혁명, 이렇게 설계했습니다</h2>
           </div>
           {[
-            { n: "1", t: "환경 설계 — 공부할 수밖에 없는 하루", src: "images/p1-pillar1.jpg",
-              img: "하루 시간표 인포그래픽\n(아침 7시 기상 → 저녁 11시 취침\n고정 루틴 시각화)",
+            {
+              n: "1", t: "환경 설계 — 공부할 수밖에 없는 하루",
               body: (<>
                 <p><span className="hi">기상 · 식사 · 학습 · 취침이 모두 고정.</span> 스마트폰은 정해진 30분에만. 선택의 피로가 사라지면, 공부가 남습니다.</p>
                 <p>"의지"가 아니라 "환경"으로 습관을 만듭니다.</p>
-              </>) },
-            { n: "2", t: "점진적 부하 — 4시간 → 10시간", src: "images/p1-pillar2.jpg",
-              img: "3주차 순공 시간 증가 그래프\n(1주 4h → 2주 8h → 3주 10h\n계단식 라인 차트)",
+              </>),
+              icon: (
+                <svg width="200" height="180" viewBox="0 0 200 180" fill="none">
+                  {/* clock top */}
+                  <circle cx="100" cy="32" r="22" fill="#0B2A5B"/>
+                  <circle cx="100" cy="32" r="16" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"/>
+                  <line x1="100" y1="22" x2="100" y2="32" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+                  <line x1="100" y1="32" x2="108" y2="37" stroke="#C4A25E" strokeWidth="2.5" strokeLinecap="round"/>
+                  <circle cx="100" cy="32" r="2.5" fill="#C4A25E"/>
+                  <text x="100" y="64" textAnchor="middle" fill="#0B2A5B" fontSize="11" fontWeight="700" fontFamily="sans-serif">08:10 기상</text>
+                  {/* timetable */}
+                  <rect x="20" y="74" width="160" height="22" rx="4" fill="#0B2A5B"/>
+                  <text x="30" y="89" fill="white" fontSize="10" fontFamily="sans-serif" fontWeight="600">08:40  국어</text>
+                  <rect x="20" y="100" width="160" height="22" rx="4" fill="#C4A25E"/>
+                  <text x="30" y="115" fill="white" fontSize="10" fontFamily="sans-serif" fontWeight="600">10:30  수학</text>
+                  <rect x="20" y="126" width="160" height="22" rx="4" fill="#4A6FA5"/>
+                  <text x="30" y="141" fill="white" fontSize="10" fontFamily="sans-serif" fontWeight="600">13:10  영어</text>
+                  <rect x="20" y="152" width="160" height="22" rx="4" fill="#5A7A6A"/>
+                  <text x="30" y="167" fill="white" fontSize="10" fontFamily="sans-serif" fontWeight="600">15:30  탐구</text>
+                  {/* lock icon right */}
+                  <rect x="158" y="79" width="14" height="12" rx="2" fill="rgba(255,255,255,0.3)"/>
+                  <path d="M161 79 Q161 74 165 74 Q169 74 169 79" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="none"/>
+                  <rect x="158" y="105" width="14" height="12" rx="2" fill="rgba(255,255,255,0.3)"/>
+                  <path d="M161 105 Q161 100 165 100 Q169 100 105" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="none"/>
+                </svg>
+              )
+            },
+            {
+              n: "2", t: "점진적 부하 — 4시간 → 10시간",
               body: (<>
                 <p>1주차 <span className="hi">적응 (4~6시간)</span> → 2주차 <span className="hi">확장 (8시간)</span> → 3주차 <span className="hi">정착 (10시간)</span>.</p>
                 <p>첫 날부터 무리하게 밀어붙이지 않습니다. 학생마다 페이스를 다르게 가져갑니다.</p>
-              </>) },
-            { n: "3", t: "기록 시스템 — 매일 보이는 성장", src: "images/p1-pillar3.jpg",
-              img: "내공 앱 주간 리포트 Mock-up\n(막대 그래프로 주간 순공 시간\n상승 추이 시각화)",
+              </>),
+              icon: (
+                <svg width="200" height="180" viewBox="0 0 200 180" fill="none">
+                  {/* grid lines */}
+                  {[20,52,84,116,148].map((y,i) => (
+                    <line key={i} x1="40" y1={y} x2="185" y2={y} stroke="#C8D4E8" strokeWidth="1" strokeDasharray="4,3"/>
+                  ))}
+                  {/* y-axis labels */}
+                  <text x="32" y="24" textAnchor="end" fill="#7A8FA8" fontSize="9" fontFamily="sans-serif">10h</text>
+                  <text x="32" y="56" textAnchor="end" fill="#7A8FA8" fontSize="9" fontFamily="sans-serif">8h</text>
+                  <text x="32" y="88" textAnchor="end" fill="#7A8FA8" fontSize="9" fontFamily="sans-serif">6h</text>
+                  <text x="32" y="120" textAnchor="end" fill="#7A8FA8" fontSize="9" fontFamily="sans-serif">4h</text>
+                  {/* bars */}
+                  <rect x="50" y="116" width="34" height="32" rx="4" fill="#0B2A5B" opacity="0.5"/>
+                  <rect x="98" y="52" width="34" height="96" rx="4" fill="#0B2A5B" opacity="0.75"/>
+                  <rect x="146" y="20" width="34" height="128" rx="4" fill="#0B2A5B"/>
+                  {/* gold top caps */}
+                  <rect x="50" y="116" width="34" height="8" rx="4" fill="#C4A25E"/>
+                  <rect x="98" y="52" width="34" height="8" rx="4" fill="#C4A25E"/>
+                  <rect x="146" y="20" width="34" height="8" rx="4" fill="#C4A25E"/>
+                  {/* labels */}
+                  <text x="67" y="162" textAnchor="middle" fill="#0B2A5B" fontSize="10" fontWeight="700" fontFamily="sans-serif">WEEK1</text>
+                  <text x="115" y="162" textAnchor="middle" fill="#0B2A5B" fontSize="10" fontWeight="700" fontFamily="sans-serif">WEEK2</text>
+                  <text x="163" y="162" textAnchor="middle" fill="#0B2A5B" fontSize="10" fontWeight="700" fontFamily="sans-serif">WEEK3</text>
+                  <text x="67" y="112" textAnchor="middle" fill="white" fontSize="10" fontWeight="700" fontFamily="sans-serif">4h</text>
+                  <text x="115" y="48" textAnchor="middle" fill="white" fontSize="10" fontWeight="700" fontFamily="sans-serif">8h</text>
+                  <text x="163" y="16" textAnchor="middle" fill="white" fontSize="10" fontWeight="700" fontFamily="sans-serif">10h</text>
+                  {/* arrow */}
+                  <path d="M55 130 Q100 60 158 28" stroke="#C4A25E" strokeWidth="2" strokeDasharray="5,3" fill="none"/>
+                  <polyline points="152,22 158,28 151,32" stroke="#C4A25E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                </svg>
+              )
+            },
+            {
+              n: "3", t: "기록 시스템 — 매일 보이는 성장",
               body: (<>
                 <p>내공 앱이 매일의 학습 시간을 <span className="hi">분 단위로 기록</span>합니다. 어제보다 오늘 10분이라도 늘면, 그게 눈에 보입니다.</p>
                 <p>학부모도 매일 저녁 리포트를 받습니다.</p>
-              </>) },
+              </>),
+              icon: (
+                <svg width="200" height="180" viewBox="0 0 200 180" fill="none">
+                  {/* phone body */}
+                  <rect x="60" y="10" width="80" height="160" rx="14" fill="#0B2A5B"/>
+                  <rect x="64" y="14" width="72" height="152" rx="11" fill="#1A3A6B"/>
+                  {/* notch */}
+                  <rect x="85" y="16" width="30" height="6" rx="3" fill="#0B2A5B"/>
+                  {/* screen content */}
+                  <rect x="70" y="30" width="60" height="10" rx="3" fill="rgba(255,255,255,0.15)"/>
+                  <text x="100" y="39" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="7" fontFamily="sans-serif">오늘의 순공</text>
+                  {/* big time display */}
+                  <text x="100" y="62" textAnchor="middle" fill="#C4A25E" fontSize="20" fontWeight="800" fontFamily="sans-serif">11h</text>
+                  <text x="100" y="74" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="7" fontFamily="sans-serif">목표 12h</text>
+                  {/* mini bars */}
+                  {[[76,50],[86,80],[96,60],[106,90],[116,100],[126,75],[136,110]].map(([x,h],i) => (
+                    <rect key={i} x={x} y={155-h*0.55} width="7" height={h*0.55} rx="2"
+                      fill={i===6 ? "#C4A25E" : "rgba(255,255,255,0.3)"}/>
+                  ))}
+                  <text x="100" y="168" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="6" fontFamily="sans-serif">MON TUE WED THU FRI SAT SUN</text>
+                  {/* notification badge */}
+                  <circle cx="138" cy="18" r="10" fill="#C4A25E"/>
+                  <text x="138" y="22" textAnchor="middle" fill="white" fontSize="8" fontWeight="700" fontFamily="sans-serif">NEW</text>
+                </svg>
+              )
+            },
           ].map((p, i) => (
             <div className={`pillar-card reveal reveal-delay-${i}`} key={p.n}>
               <div className="pillar-head">
@@ -3261,7 +3351,7 @@ function PreGo1Page() {
                 <span className="pillar-title">{p.t}</span>
               </div>
               <div className="pillar-body">
-                <PH label={p.img} src={p.src} />
+                <div className="pillar-icon">{p.icon}</div>
                 <div className="pillar-txt">{p.body}</div>
               </div>
             </div>
