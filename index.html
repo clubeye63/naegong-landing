@@ -4428,6 +4428,245 @@ function PrivacyPage() {
   );
 }
 
+// ============ Payment Page (예약금 결제 안내) ============
+function PaymentPage() {
+  const [form, setForm] = React.useState({
+    depositor: '', depositorPhone: '',
+    studentName: '', studentGender: '', studentSchool: '', studentPhone: '', grade: '고3'
+  });
+  const [privacy, setPrivacy] = React.useState(false);
+  const [refundOpen, setRefundOpen] = React.useState(false);
+  const [status, setStatus] = React.useState('idle');
+  const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    if (!privacy) { alert('개인정보 수집·이용에 동의해주세요.'); return; }
+    setStatus('loading');
+    const payload = {
+      ...form,
+      sheetTarget: '시트3',
+      type: '예약금결제',
+      privacy_agreed: true,
+      ...getUTM(),
+      page: window.location.hash || '#/payment',
+      submitted_at: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+    };
+    try {
+      const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
+      navigator.sendBeacon(APPS_SCRIPT_URL, blob);
+      setStatus('success');
+    } catch { setStatus('error'); }
+  };
+
+  React.useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  if (status === 'success') return (
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#0B2A5B 0%,#163C7A 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div style={{ background: '#fff', borderRadius: 24, padding: '56px 40px', maxWidth: 480, width: '100%', textAlign: 'center', boxShadow: '0 24px 80px rgba(11,42,91,.25)' }}>
+        <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'linear-gradient(135deg,#0B2A5B,#163C7A)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: 32 }}>✓</div>
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#0B2A5B', marginBottom: 12 }}>신청이 완료되었습니다!</h2>
+        <p style={{ color: '#6B7280', lineHeight: 1.7, marginBottom: 8 }}>아래 계좌로 예약금 <strong style={{color:'#0B2A5B'}}>100만원</strong>을 입금해주세요.</p>
+        <div style={{ background: '#F5F7FB', borderRadius: 12, padding: '20px 24px', margin: '24px 0', textAlign: 'left' }}>
+          <div style={{ fontSize: 13, color: '#6B7280', marginBottom: 4 }}>입금 계좌</div>
+          <div style={{ fontSize: 20, fontWeight: 800, color: '#0B2A5B', letterSpacing: '0.04em' }}>신한은행 110-123-456789</div>
+          <div style={{ fontSize: 14, color: '#374151', marginTop: 4 }}>예금주: 내공에듀</div>
+        </div>
+        <p style={{ fontSize: 13, color: '#9AA3AF' }}>입금 확인 후 담당자가 연락드립니다.<br/>문의: 카카오톡 채널 @내공에듀</p>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#F5F7FB' }}>
+      {/* 헤더 */}
+      <header style={{ background: '#0B2A5B', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src="images/logo.png" alt="내공에듀" style={{ height: 32, width: 'auto' }} />
+        <span style={{ color: '#fff', fontWeight: 700, fontSize: 16 }}>내공기숙캠프</span>
+      </header>
+
+      {/* 히어로 */}
+      <div style={{ background: 'linear-gradient(135deg,#0B2A5B 0%,#163C7A 100%)', padding: '52px 24px 64px', textAlign: 'center', color: '#fff' }}>
+        <div style={{ display: 'inline-block', background: 'rgba(184,147,90,.25)', border: '1px solid rgba(184,147,90,.5)', borderRadius: 100, padding: '6px 20px', fontSize: 13, fontWeight: 700, color: '#D4B88A', marginBottom: 20 }}>
+          2026 여름방학 · 연세대 송도 국제캠퍼스
+        </div>
+        <h1 style={{ fontSize: 'clamp(24px,5vw,40px)', fontWeight: 800, lineHeight: 1.25, marginBottom: 16 }}>
+          내공 기숙캠프<br/>예약금 결제 안내
+        </h1>
+        <p style={{ fontSize: 16, opacity: .85, maxWidth: 480, margin: '0 auto' }}>
+          예약금 입금 후 담당자 확인을 거쳐 최종 등록이 완료됩니다.
+        </p>
+        {/* 주요 정보 뱃지 */}
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginTop: 32 }}>
+          {[['🏛','연세대 송도캠퍼스'],['📅','2026 여름방학'],['👥','정원 70명'],['💰','예약금 100만원']].map(([icon, text]) => (
+            <div key={text} style={{ background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.2)', borderRadius: 100, padding: '8px 18px', fontSize: 13, fontWeight: 600 }}>
+              {icon} {text}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 20px 80px' }}>
+
+        {/* 계좌 안내 카드 */}
+        <div style={{ background: '#fff', borderRadius: 20, padding: '32px 28px', marginTop: -28, boxShadow: '0 8px 40px rgba(11,42,91,.12)', border: '1px solid rgba(11,42,91,.08)', marginBottom: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+            <div style={{ width: 36, height: 36, background: 'linear-gradient(135deg,#0B2A5B,#163C7A)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🏦</div>
+            <div style={{ fontWeight: 800, fontSize: 18, color: '#0B2A5B' }}>입금 계좌 안내</div>
+          </div>
+          <div style={{ background: 'linear-gradient(135deg,#EEF3FB,#DDE5F4)', borderRadius: 14, padding: '20px 24px', marginBottom: 16 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#B8935A', letterSpacing: '.08em', marginBottom: 6 }}>예약금 계좌</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: '#0B2A5B', letterSpacing: '0.04em', marginBottom: 4 }}>신한은행 110-123-456789</div>
+            <div style={{ fontSize: 14, color: '#374151' }}>예금주: 내공에듀</div>
+          </div>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <div style={{ flex: 1, minWidth: 140, background: '#F5F7FB', borderRadius: 10, padding: '14px 16px' }}>
+              <div style={{ fontSize: 11, color: '#9AA3AF', fontWeight: 600, marginBottom: 4 }}>예약금</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: '#0B2A5B' }}>1,000,000원</div>
+            </div>
+            <div style={{ flex: 1, minWidth: 140, background: '#F5F7FB', borderRadius: 10, padding: '14px 16px' }}>
+              <div style={{ fontSize: 11, color: '#9AA3AF', fontWeight: 600, marginBottom: 4 }}>입금 기한</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: '#0B2A5B' }}>신청 후 3영업일 이내</div>
+            </div>
+          </div>
+          <p style={{ fontSize: 13, color: '#9AA3AF', marginTop: 14, lineHeight: 1.6 }}>
+            ※ 입금자 성명을 반드시 아래 신청서와 동일하게 입력해주세요.<br/>
+            ※ 입금 확인 후 담당자가 순차적으로 연락드립니다.
+          </p>
+        </div>
+
+        {/* 신청 폼 */}
+        <div style={{ background: '#fff', borderRadius: 20, padding: '32px 28px', boxShadow: '0 4px 24px rgba(11,42,91,.07)', border: '1px solid rgba(11,42,91,.06)', marginBottom: 16 }}>
+          <div style={{ fontWeight: 800, fontSize: 18, color: '#0B2A5B', marginBottom: 8 }}>예약 신청서</div>
+          <p style={{ fontSize: 14, color: '#9AA3AF', marginBottom: 28 }}>아래 정보를 정확히 입력해주세요. 담당자 확인 후 연락드립니다.</p>
+          <form onSubmit={handleSubmit}>
+            {/* 입금자 정보 */}
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#B8935A', letterSpacing: '.08em', marginBottom: 14 }}>입금자 정보</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>입금자 성명 <span style={{color:'#D14836'}}>*</span></label>
+                <input className="form-input" type="text" placeholder="홍길동" value={form.depositor} onChange={set('depositor')} required style={{ width: '100%' }} />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>입금자 연락처 <span style={{color:'#D14836'}}>*</span></label>
+                <input className="form-input" type="tel" placeholder="010-0000-0000" value={form.depositorPhone} onChange={set('depositorPhone')} required style={{ width: '100%' }} />
+              </div>
+            </div>
+
+            {/* 학생 정보 */}
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#B8935A', letterSpacing: '.08em', marginBottom: 14 }}>학생 정보</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>학생 성명 <span style={{color:'#D14836'}}>*</span></label>
+                <input className="form-input" type="text" placeholder="홍길동" value={form.studentName} onChange={set('studentName')} required style={{ width: '100%' }} />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>성별 <span style={{color:'#D14836'}}>*</span></label>
+                <select className="form-select" value={form.studentGender} onChange={set('studentGender')} required style={{ width: '100%' }}>
+                  <option value="">선택</option>
+                  <option value="남">남</option>
+                  <option value="여">여</option>
+                </select>
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>학교명 <span style={{color:'#D14836'}}>*</span></label>
+                <input className="form-input" type="text" placeholder="OO고등학교" value={form.studentSchool} onChange={set('studentSchool')} required style={{ width: '100%' }} />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>학생 연락처</label>
+                <input className="form-input" type="tel" placeholder="010-0000-0000" value={form.studentPhone} onChange={set('studentPhone')} style={{ width: '100%' }} />
+              </div>
+            </div>
+            <div style={{ marginBottom: 28 }}>
+              <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>학년 <span style={{color:'#D14836'}}>*</span></label>
+              <div style={{ display: 'flex', gap: 10 }}>
+                {['고3', '중3'].map(g => (
+                  <label key={g} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, border: `2px solid ${form.grade === g ? '#0B2A5B' : '#E5E7EB'}`, borderRadius: 10, padding: '12px 0', cursor: 'pointer', fontWeight: 700, fontSize: 15, color: form.grade === g ? '#0B2A5B' : '#6B7280', background: form.grade === g ? '#EEF3FB' : '#fff', transition: 'all .15s' }}>
+                    <input type="radio" name="grade" value={g} checked={form.grade === g} onChange={set('grade')} style={{ display: 'none' }} />
+                    {g}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* 환불 정책 아코디언 */}
+            <div style={{ border: '1px solid #E5E7EB', borderRadius: 12, marginBottom: 20, overflow: 'hidden' }}>
+              <button type="button" onClick={() => setRefundOpen(o => !o)}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', background: '#F5F7FB', border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: 14, color: '#0B2A5B' }}>
+                <span>📋 환불 정책 확인하기</span>
+                <span style={{ fontSize: 18, transform: refundOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>›</span>
+              </button>
+              {refundOpen && (
+                <div style={{ padding: '16px 18px', fontSize: 13, color: '#374151', lineHeight: 1.8, background: '#fff' }}>
+                  <p style={{ fontWeight: 700, color: '#0B2A5B', marginBottom: 8 }}>예약금 환불 규정</p>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {[
+                      ['캠프 시작 30일 전 이전 취소', '예약금 전액 환불'],
+                      ['캠프 시작 15일 전 ~ 30일 전 취소', '예약금 50% 환불'],
+                      ['캠프 시작 15일 전 이후 취소', '환불 불가'],
+                      ['천재지변 등 불가항력적 사유', '전액 환불 (증빙 서류 제출 필요)'],
+                    ].map(([period, policy]) => (
+                      <li key={period} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                        <span style={{ color: '#B8935A', fontWeight: 700, flexShrink: 0 }}>·</span>
+                        <span><strong>{period}</strong>: {policy}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p style={{ marginTop: 12, fontSize: 12, color: '#9AA3AF' }}>※ 취소 신청은 카카오톡 채널 @내공에듀 또는 담당자 연락처로 문의해주세요.</p>
+                </div>
+              )}
+            </div>
+
+            {/* 개인정보 동의 */}
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', marginBottom: 24, padding: '14px 16px', background: '#F5F7FB', borderRadius: 10, border: `1.5px solid ${privacy ? '#0B2A5B' : '#E5E7EB'}`, transition: 'border-color .15s' }}>
+              <input type="checkbox" checked={privacy} onChange={e => setPrivacy(e.target.checked)}
+                style={{ marginTop: 2, accentColor: '#0B2A5B', flexShrink: 0, width: 16, height: 16 }} />
+              <span style={{ fontSize: 13, color: '#374151', lineHeight: 1.6 }}>
+                <strong style={{ color: '#0B2A5B' }}>[필수] 개인정보 수집·이용에 동의합니다.</strong><br/>
+                <span style={{ color: '#9AA3AF' }}>수집 항목: 입금자 성명·연락처, 학생 성명·성별·학교·연락처·학년<br/>
+                목적: 예약금 결제 확인 및 캠프 등록 처리 / 보유기간: 캠프 종료 후 1년</span>
+              </span>
+            </label>
+
+            <button type="submit" disabled={status === 'loading' || !privacy}
+              style={{ width: '100%', padding: '16px', borderRadius: 12, border: 'none', background: privacy ? 'linear-gradient(135deg,#0B2A5B,#163C7A)' : '#E5E7EB', color: privacy ? '#fff' : '#9AA3AF', fontWeight: 800, fontSize: 16, cursor: privacy ? 'pointer' : 'not-allowed', transition: 'all .15s', letterSpacing: '.02em' }}>
+              {status === 'loading' ? '제출 중...' : '✓ 예약 신청 완료하기'}
+            </button>
+            <p style={{ fontSize: 12, color: '#9AA3AF', textAlign: 'center', marginTop: 12 }}>
+              신청 후 입금 계좌로 예약금을 이체해주세요.
+            </p>
+          </form>
+        </div>
+
+        {/* 안내 사항 */}
+        <div style={{ background: '#fff', borderRadius: 16, padding: '20px 24px', border: '1px solid rgba(11,42,91,.06)' }}>
+          <div style={{ fontWeight: 700, fontSize: 14, color: '#0B2A5B', marginBottom: 12 }}>📌 유의사항</div>
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {[
+              '예약금 입금 후 담당자 확인까지 1~2 영업일이 소요될 수 있습니다.',
+              '정원 초과 시 예약금을 납입하셔도 등록이 불가할 수 있습니다.',
+              '최종 등록 완료 후 캠프 상세 일정 및 준비물을 안내드립니다.',
+              '문의: 카카오톡 채널 @내공에듀',
+            ].map(t => (
+              <li key={t} style={{ fontSize: 13, color: '#6B7280', display: 'flex', gap: 8 }}>
+                <span style={{ color: '#B8935A', flexShrink: 0 }}>·</span>{t}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* 푸터 */}
+      <footer style={{ background: '#0B2A5B', color: 'rgba(255,255,255,.6)', padding: '28px 24px', textAlign: 'center', fontSize: 13 }}>
+        <p style={{ color: '#fff', fontWeight: 700, marginBottom: 4 }}>내공에듀</p>
+        <p>© 2026 내공에듀. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}
+
 // ============ Event Modal (현장 설명회 신청) ============
 function EventModal({ open, onClose }) {
   const [form, setForm] = React.useState({ name:'', phone:'', grade:'고3', attend:'학생 단독' });
@@ -4564,14 +4803,17 @@ function App() {
   else if (hash.startsWith("#/pre-go1")) Page = PreGo1Page;
   else if (hash.startsWith("#/terms")) Page = TermsPage;
   else if (hash.startsWith("#/privacy")) Page = PrivacyPage;
+  else if (hash.startsWith("#/payment")) Page = PaymentPage;
   else Page = HubPage;
+
+  const isPayment = hash.startsWith("#/payment");
 
   return (
     <>
       <Page key={hash} />
-      <FloatingCTA />
-      <ConsultModal open={modalOpen} onClose={() => setModalOpen(false)} defaultCamp={defaultCamp} />
-      <EventModal open={eventModalOpen} onClose={() => setEventModalOpen(false)} />
+      {!isPayment && <FloatingCTA />}
+      {!isPayment && <ConsultModal open={modalOpen} onClose={() => setModalOpen(false)} defaultCamp={defaultCamp} />}
+      {!isPayment && <EventModal open={eventModalOpen} onClose={() => setEventModalOpen(false)} />}
       <TweaksPanel title="Tweaks">
         <TweakSection label="Colors">
           <TweakColor label="Navy (primary)"
