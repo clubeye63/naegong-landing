@@ -2206,28 +2206,31 @@ function getUTM() {
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-FLmn_KofP6JHxI3niPlSOxHvG5HRBk8tC1U0zMQPb1_KdCVO8SAR0c-p3CMIcwSucg/exec';
 
 function ConsultModal({ open, onClose, defaultCamp }) {
-  const [form, setForm] = React.useState({ name:'', phone:'', grade:'고3', camp: defaultCamp || '미정', message:'' });
+  const [form, setForm] = React.useState({ name:'', phone:'', studentPhone:'', grade:'고3', region:'', channel:'' });
+  const [privacy, setPrivacy] = React.useState(false);
   const [status, setStatus] = React.useState('idle'); // idle | loading | success | error
 
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
-      setForm(f => ({ ...f, camp: defaultCamp || '미정' }));
       setStatus('idle');
+      setPrivacy(false);
     } else {
       document.body.style.overflow = '';
     }
     return () => { document.body.style.overflow = ''; };
-  }, [open, defaultCamp]);
+  }, [open]);
 
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim()) return;
+    if (!privacy) { alert('개인정보 수집·이용에 동의해주세요.'); return; }
     setStatus('loading');
     const payload = {
       ...form,
+      privacy_agreed: true,
       ...getUTM(),
       page: window.location.hash || '#/',
       submitted_at: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
@@ -2271,6 +2274,10 @@ function ConsultModal({ open, onClose, defaultCamp }) {
               <input className="form-input" type="tel" placeholder="010-0000-0000" value={form.phone} onChange={set('phone')} required />
             </div>
             <div className="form-row">
+              <label>학생 연락처 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
+              <input className="form-input" type="tel" placeholder="010-0000-0000" value={form.studentPhone} onChange={set('studentPhone')} />
+            </div>
+            <div className="form-row">
               <label>학년 <span>*</span></label>
               <select className="form-select" value={form.grade} onChange={set('grade')}>
                 <option value="고3">고3 (2027 수능)</option>
@@ -2279,23 +2286,40 @@ function ConsultModal({ open, onClose, defaultCamp }) {
               </select>
             </div>
             <div className="form-row">
-              <label>관심 캠프</label>
-              <select className="form-select" value={form.camp} onChange={set('camp')}>
-                <option value="고3 수능 실전 하드트레이닝">고3 수능 실전 하드트레이닝</option>
-                <option value="중3 습관 혁명">중3 습관 혁명</option>
-                <option value="미정">아직 미정</option>
-              </select>
+              <label>지역 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
+              <input className="form-input" type="text" placeholder="예) 서울 강남, 경기 수원" value={form.region} onChange={set('region')} />
             </div>
             <div className="form-row">
-              <label>상담 희망 내용 <span style={{color:'var(--muted)',fontWeight:400}}>(선택)</span></label>
-              <textarea className="form-textarea" placeholder="궁금하신 점이나 상담 내용을 자유롭게 적어주세요." value={form.message} onChange={set('message')} />
+              <label>알게된 경로 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
+              <select className="form-select" value={form.channel} onChange={set('channel')}>
+                <option value="">선택해주세요</option>
+                <option value="검색">검색 (네이버/구글)</option>
+                <option value="지인추천">지인 추천</option>
+                <option value="SNS">SNS (인스타그램/유튜브 등)</option>
+                <option value="네이버카페">네이버 카페</option>
+                <option value="기타">기타</option>
+              </select>
             </div>
-            <button className="form-submit" type="submit" disabled={status === 'loading'}>
+            <div className="form-row" style={{marginTop:4}}>
+              <label style={{
+                display:'flex', alignItems:'flex-start', gap:10,
+                fontSize:13, color:'var(--muted)', fontWeight:400, cursor:'pointer'
+              }}>
+                <input
+                  type="checkbox"
+                  checked={privacy}
+                  onChange={e => setPrivacy(e.target.checked)}
+                  style={{marginTop:2, accentColor:'var(--navy)', flexShrink:0, width:16, height:16}}
+                />
+                <span>
+                  <strong style={{color:'var(--ink)',fontWeight:600}}>[필수] 개인정보 수집·이용 동의</strong><br/>
+                  수집 항목: 이름, 연락처, 학년, 지역 / 목적: 상담 안내 / 보유기간: 상담 완료 후 즉시 파기
+                </span>
+              </label>
+            </div>
+            <button className="form-submit" type="submit" disabled={status === 'loading' || !privacy}>
               {status === 'loading' ? '제출 중...' : '상담 신청하기'}
             </button>
-            <p className="form-note">
-              수집된 개인정보는 상담 목적으로만 사용되며<br/>상담 완료 후 즉시 파기됩니다.
-            </p>
           </form>
         )}
       </div>
