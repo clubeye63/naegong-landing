@@ -1757,7 +1757,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p style="margin-top:8px">© 2026 내공에듀. All rights reserved.</p>
       <p style="margin-top:12px">
         <a href="#/terms" style="color:rgba(255,255,255,.6);margin-right:16px">이용약관</a>
-        <a href="#/privacy" style="color:rgba(255,255,255,.6)">개인정보처리방침</a>
+        <a href="#/privacy" style="color:rgba(255,255,255,.6);margin-right:16px">개인정보처리방침</a>
+        <a href="#/refund" style="color:rgba(255,255,255,.6)">환불규정</a>
       </p>
     </div>
   </footer>
@@ -2594,7 +2595,7 @@ function Footer() {
           <div className="foot-links">
             <a href="#/terms" onClick={(e) => { e.preventDefault(); window.location.hash = "#/terms"; window.scrollTo(0, 0); }}>이용약관</a>
             <a href="#/privacy" onClick={(e) => { e.preventDefault(); window.location.hash = "#/privacy"; window.scrollTo(0, 0); }}>개인정보처리방침</a>
-            <a href="#">환불규정</a>
+            <a href="#/refund" onClick={(e) => { e.preventDefault(); window.location.hash = "#/refund"; window.scrollTo(0, 0); }}>환불규정</a>
           </div>
         </div>
         <div className="foot-bottom">
@@ -4486,6 +4487,53 @@ function PrivacyPage() {
   );
 }
 
+// ============ 환불규정 ============
+function RefundPage() {
+  return (
+    <PolicyPage title="환불규정">
+      <PolicySection title="제1조 (등록비)">
+        <p>캠프 참가 신청 시 등록비 100만 원이 발생하며, 등록비는 환불 조건과 관계없이 반환되지 않습니다.</p>
+      </PolicySection>
+      <PolicySection title="제2조 (환불 기준)">
+        <p>환불 기준은 캠프 시작일을 기준으로 다음과 같이 적용됩니다.</p>
+        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 12, fontSize: 14 }}>
+          <thead>
+            <tr style={{ background: "var(--navy)", color: "#fff" }}>
+              <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600 }}>취소 시점</th>
+              <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600 }}>환불 금액</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              ["캠프 시작 1개월 전 취소", "등록비(100만 원) 제외 전액 환불"],
+              ["캠프 시작 2주 전 취소",   "등록비 제외 금액의 50% 환불"],
+              ["캠프 시작 2주 이내 ~ 당일", "환불 불가"],
+            ].map(([when, policy], i) => (
+              <tr key={i} style={{ borderBottom: "1px solid var(--line)", background: i % 2 === 0 ? "var(--cream)" : "#fff" }}>
+                <td style={{ padding: "10px 14px", fontWeight: 600 }}>{when}</td>
+                <td style={{ padding: "10px 14px", color: when.includes("불가") ? "var(--coral)" : "var(--ink)" }}>{policy}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </PolicySection>
+      <PolicySection title="제3조 (예외 환불)">
+        <p>① 회사의 귀책 사유(캠프 취소, 운영 불가 등)로 인한 경우 전액 환불합니다.<br/>
+        ② 천재지변·전쟁 등 불가항력적 사유의 경우 증빙 서류 제출 후 전액 환불합니다.<br/>
+        ③ 순공 10시간 미달 환불 보증은 별도 약정서에 따릅니다.</p>
+      </PolicySection>
+      <PolicySection title="제4조 (취소 신청 방법)">
+        <p>① 취소 신청은 카카오톡 채널 <strong>@내공에듀</strong> 또는 담당자 연락처를 통해 접수합니다.<br/>
+        ② 취소 신청 접수일 기준으로 환불 기준이 적용됩니다.<br/>
+        ③ 환불 금액은 취소 확인 후 영업일 기준 5~7일 이내 지급됩니다.</p>
+      </PolicySection>
+      <PolicySection title="제5조 (약관의 변경)">
+        <p>회사는 필요한 경우 환불 규정을 변경할 수 있으며, 변경된 내용은 웹사이트에 공지함으로써 효력이 발생합니다.</p>
+      </PolicySection>
+    </PolicyPage>
+  );
+}
+
 // ============ Payment Page (예약금 결제 안내) ============
 function PaymentPage() {
   const [form, setForm] = React.useState({
@@ -4861,6 +4909,7 @@ function App() {
   else if (hash.startsWith("#/pre-go1")) Page = PreGo1Page;
   else if (hash.startsWith("#/terms")) Page = TermsPage;
   else if (hash.startsWith("#/privacy")) Page = PrivacyPage;
+  else if (hash.startsWith("#/refund")) Page = RefundPage;
   else if (hash.startsWith("#/payment")) Page = PaymentPage;
   else Page = HubPage;
 
