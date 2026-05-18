@@ -2451,6 +2451,37 @@ function Nav({ page, onNav }) {
   );
 }
 
+// ============ 얼리버드 단계 ============
+const EARLY_BIRD_TIERS = [
+  { name: "1차 슈퍼 얼리버드", end: "2026-05-31T23:59:59+09:00", price: "330만 원", discount: "23%", badge: "🔥 SUPER EARLY" },
+  { name: "2차 얼리버드",      end: "2026-06-20T23:59:59+09:00", price: "345만 원", discount: "20%", badge: "⚡ EARLY BIRD"  },
+  { name: "3차 레귤러",        end: "2026-07-10T23:59:59+09:00", price: "360만 원", discount: "16%", badge: "📌 REGULAR"     },
+  { name: "4차 마감 임박",     end: "2026-07-20T23:59:59+09:00", price: "380만 원", discount: "12%", badge: "🚨 LAST CHANCE" },
+];
+const REGULAR_PRICE = "430만 원";
+
+function getCurrentTier() {
+  const now = Date.now();
+  for (const tier of EARLY_BIRD_TIERS) {
+    if (now <= new Date(tier.end).getTime()) return tier;
+  }
+  return null; // 마감 이후
+}
+
+function EarlyBirdPriceCell() {
+  const tier = getCurrentTier();
+  if (!tier) return <span>{REGULAR_PRICE}</span>;
+  const endDate = new Date(tier.end);
+  const mo = endDate.getMonth() + 1;
+  const d  = endDate.getDate();
+  return (
+    <>
+      <span className="cmp-price-old">{REGULAR_PRICE}</span>
+      <span className="cmp-price-new">{tier.price} ({mo}/{d} {tier.name})</span>
+    </>
+  );
+}
+
 // ============ Countdown ============
 function useCountdown(target) {
   const [t, setT] = useState(() => computeT(target));
@@ -2484,21 +2515,46 @@ function Countdown({ target }) {
 // ============ CTA Section ============
 function CTASection({ kicker }) {
   const openModal = () => window.__openConsultModal && window.__openConsultModal();
+  const tier = getCurrentTier();
+
   return (
     <section id="consult" className="section cta-section">
       <div className="wrap">
         <div className="eyebrow" style={{ color: "var(--gold)", marginBottom: 16 }}>LIMITED SEATS</div>
         <h2 className="cta-head">{kicker || "2026 연세대 썸머 멘토링 캠프"}</h2>
         <p className="cta-sub">교육 퀄리티 유지를 위해 과정당 70명 한정, 선착순 마감</p>
-        <div style={{ color: "var(--gold)", fontSize: 14, fontWeight: 600, marginBottom: 12, letterSpacing: "0.1em" }}>
-          ⏰ 얼리버드 마감까지
-        </div>
-        <Countdown target="2026-05-31T23:59:59+09:00" />
-        <div className="cta-price">
-          <span className="cta-price-old">430만 원</span>
-          <span className="cta-price-new">344만 원</span>
-          <span className="cta-price-save">20% 할인</span>
-        </div>
+
+        {tier ? (
+          <>
+            {/* 얼리버드 배지 */}
+            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+              <span style={{
+                background: "var(--gold)", color: "#fff", fontWeight: 700,
+                fontSize: 12, letterSpacing: "0.08em", padding: "4px 14px", borderRadius: 20
+              }}>{tier.badge}</span>
+              <span style={{
+                border: "1px solid var(--gold)", color: "var(--gold)", fontWeight: 600,
+                fontSize: 12, padding: "4px 14px", borderRadius: 20
+              }}>{tier.name} · 20명 한정</span>
+            </div>
+            {/* 카운트다운 */}
+            <div style={{ color: "var(--gold)", fontSize: 13, fontWeight: 600, marginBottom: 10, letterSpacing: "0.08em" }}>
+              ⏰ {tier.name} 마감까지
+            </div>
+            <Countdown target={tier.end} />
+            {/* 가격 */}
+            <div className="cta-price">
+              <span className="cta-price-old">{REGULAR_PRICE}</span>
+              <span className="cta-price-new">{tier.price}</span>
+              <span className="cta-price-save">{tier.discount} 할인</span>
+            </div>
+          </>
+        ) : (
+          <div className="cta-price" style={{ marginTop: 28 }}>
+            <span className="cta-price-new">{REGULAR_PRICE}</span>
+          </div>
+        )}
+
         <div className="cta-shield">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L3 6v6c0 5 3.5 9.5 9 11 5.5-1.5 9-6 9-11V6l-9-4z"/></svg>
           순공 10시간 미달 시 전액 환불 보증
@@ -3643,7 +3699,7 @@ function Go3Page() {
                 <tr><td>운영 기간</td><td>2026년 7월 20일(월) ~ 8월 11일(화) · 21일</td></tr>
                 <tr><td>운영 장소</td><td>연세대학교 송도 국제캠퍼스 (인천광역시 연수구)</td></tr>
                 <tr><td>모집 정원</td><td>70명 (선착순 마감)</td></tr>
-                <tr><td>참가비</td><td><span className="cmp-price-old">430만 원</span><span className="cmp-price-new">344만 원 (5/31 이전 신청)</span></td></tr>
+                <tr><td>참가비</td><td><EarlyBirdPriceCell /></td></tr>
                 <tr><td>포함 사항</td><td>기숙사 · 3식 · 교재 · 1:6 멘토 지도 · 내공 앱 · 매일 리포트</td></tr>
                 <tr><td>접수 방법</td><td>1:1 상담 신청 → 입소 의사 확인 → 참가비 입금 → 확정</td></tr>
               </tbody>
@@ -4185,7 +4241,7 @@ function PreGo1Page() {
                 <tr><td>운영 기간</td><td>2026년 7월 20일(월) ~ 8월 11일(화) · 21일</td></tr>
                 <tr><td>운영 장소</td><td>연세대학교 송도 국제캠퍼스 (인천광역시 연수구)</td></tr>
                 <tr><td>모집 정원</td><td>70명 (선착순 마감)</td></tr>
-                <tr><td>참가비</td><td><span className="cmp-price-old">430만 원</span><span className="cmp-price-new">344만 원 (5/31 이전 신청)</span></td></tr>
+                <tr><td>참가비</td><td><EarlyBirdPriceCell /></td></tr>
                 <tr><td>포함 사항</td><td>기숙사 · 3식 · 교재 · 1:6 멘토 지도 · 내공 앱 · 매일 리포트 · 입시 로드맵</td></tr>
                 <tr><td>접수 방법</td><td>1:1 상담 신청 → 입소 의사 확인 → 참가비 입금 → 확정</td></tr>
               </tbody>
