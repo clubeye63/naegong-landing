@@ -235,7 +235,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--white); font-weight: 800; letter-spacing: -0.01em;
   font-size: 17px;
 }
-.nav-logo img { height: 80px; width: auto; display: block; }
+.nav-logo img { width: auto; display: block; }
+.logo-img { width: auto; display: block; }
+@media (max-width: 768px) {
+  .nav-logo img, .logo-img { height: 200px; }
+}
+@media (min-width: 769px) {
+  .nav-logo img, .logo-img { height: 600px; }
+}
 .nav-logo-mark {
   width: 28px; height: 28px;
   background: var(--gold); color: var(--navy);
@@ -2575,7 +2582,7 @@ function Footer() {
         <div className="foot-grid">
           <div>
             <div className="foot-logo">
-              <img src="images/Remove_logo.png" alt="내공기숙캠프 로고" style={{ height: 80, width: "auto", display: "block" }} />
+              <img src="images/Remove_logo.png" alt="내공기숙캠프 로고" className="logo-img" />
             </div>
             <p style={{ color: "#9AA6BA", fontSize: 13, lineHeight: 1.7, margin: 0 }}>
               연세대 송도 국제캠퍼스에서 운영하는<br/>
@@ -4584,7 +4591,7 @@ function PaymentPage() {
     <div style={{ minHeight: '100vh', background: '#F5F7FB' }}>
       {/* 헤더 */}
       <header style={{ background: '#0B2A5B', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img src="images/Remove_logo.png" alt="내공기숙캠프 로고" style={{ height: 80, width: 'auto' }} />
+        <img src="images/Remove_logo.png" alt="내공기숙캠프 로고" className="logo-img" />
       </header>
 
       {/* 히어로 */}
