@@ -2208,7 +2208,7 @@ function getUTM() {
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-FLmn_KofP6JHxI3niPlSOxHvG5HRBk8tC1U0zMQPb1_KdCVO8SAR0c-p3CMIcwSucg/exec';
 
 function ConsultModal({ open, onClose, defaultCamp }) {
-  const [form, setForm] = React.useState({ name:'', phone:'', studentPhone:'', grade:'고3', region:'', channel:'' });
+  const [form, setForm] = React.useState({ name:'', phone:'', studentPhone:'', gender:'', grade:'고3', region:'', channel:'' });
   const [privacy, setPrivacy] = React.useState(false);
   const [status, setStatus] = React.useState('idle'); // idle | loading | success | error
 
@@ -2286,6 +2286,22 @@ function ConsultModal({ open, onClose, defaultCamp }) {
                 <option value="중3">중3 (현 중3)</option>
                 <option value="기타">기타</option>
               </select>
+            </div>
+            <div className="form-row">
+              <label>학생 성별 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
+              <div style={{ display:'flex', gap:10 }}>
+                {['남','여'].map(g => (
+                  <button key={g} type="button"
+                    onClick={() => setForm(f => ({ ...f, gender: f.gender === g ? '' : g }))}
+                    style={{
+                      flex:1, padding:'10px 0', borderRadius:8, fontSize:15, fontWeight:700, cursor:'pointer', transition:'all .15s',
+                      border: form.gender === g ? '2px solid var(--navy)' : '2px solid var(--line)',
+                      background: form.gender === g ? 'var(--bg-g3)' : '#fff',
+                      color: form.gender === g ? 'var(--navy)' : 'var(--muted)',
+                    }}
+                  >{g}학생</button>
+                ))}
+              </div>
             </div>
             <div className="form-row">
               <label>지역 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
