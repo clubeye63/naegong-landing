@@ -2240,6 +2240,7 @@ function ConsultModal({ open, onClose, defaultCamp }) {
     try {
       const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
       navigator.sendBeacon(APPS_SCRIPT_URL, blob);
+      if (window.naverConversionLead) window.naverConversionLead();
       setStatus('success');
     } catch(err) {
       setStatus('error');
@@ -4818,6 +4819,7 @@ function EventModal({ open, onClose }) {
     try {
       const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
       navigator.sendBeacon(APPS_SCRIPT_URL, blob);
+      if (window.naverConversionLead) window.naverConversionLead();
       setStatus('success');
     } catch(err) { setStatus('error'); }
   };
@@ -4979,6 +4981,31 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
+</script>
+
+<!-- 네이버 전환 추적 헬퍼 -->
+<script type="text/javascript">
+function naverConversionLead() {
+  if (window.wcs) {
+    if (!wcs_add) var wcs_add = {};
+    wcs_add['wa'] = 's_1f15ae39c6f2';
+    var _conv = {};
+    _conv.type = 'lead';
+    wcs.trans(_conv);
+  }
+}
+</script>
+
+<!-- 네이버 공통 스크립트 (애널리틱스) -->
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if (!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "s_1f15ae39c6f2";
+if (!_nasa) var _nasa = {};
+if (window.wcs) {
+  wcs.inflow();
+  wcs_do();
+}
 </script>
 </body>
 </html>
