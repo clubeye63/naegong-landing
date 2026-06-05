@@ -3081,7 +3081,7 @@ function Go3Page() {
 
   const faqs = [
     { q: "성적이 실제로 오르나요?", a: "저희는 성적 향상을 보장하지 않습니다. 대신 '학습량 10시간'을 보장합니다. 매일 10시간 이상의 순공 시간이 누적되지 않으면 전액 환불합니다. 학습량은 모든 성적 향상의 전제 조건입니다." },
-    { q: "중도에 하차하면 환불되나요?", a: "캠프 시작 1개월 전 취소 시 등록비(100만 원) 제외 전액 환불, 2주 전 취소 시 등록비 제외 금액의 50% 환불, 2주 이내~당일 취소는 환불 불가입니다. 자세한 내용은 환불규정을 확인해주세요." },
+    { q: "중도에 하차하면 환불되나요?", a: "등록비(100만 원)는 1개월 전 100% / 2주 전 50% / 2주 이내 환불 불가. 잔금은 2주 전까지 100% 환불 / 2주 이내 환불 불가입니다. 자세한 내용은 환불규정을 확인해주세요." },
     { q: "학원과 병행할 수 있나요?", a: "캠프 기간 중에는 외부 학원 출입이 불가합니다. 대신 수능 출제 경향에 맞춘 자체 커리큘럼과 1:6 밀착 지도로 대체합니다." },
     { q: "스마트폰은 사용할 수 있나요?", a: "평일 22:00 ~ 22:30 30분간만 사용 가능합니다. 그 외 시간에는 별도 보관함에 예치됩니다. 부모님과의 긴급 연락은 생활지도사를 통해 즉시 가능합니다." },
     { q: "의료·응급 상황 대응은?", a: "간호사 자격 보유 생활지도사 24시간 상주 + 연세대 보건소 연계 + 송도 소재 종합병원(5분 거리) 협력 체계. 복용 중인 약은 입소 시 의료 담당자에게 전달하여 관리합니다." },
@@ -3645,7 +3645,7 @@ function Go3Page() {
               },
               {
                 t: "투명한 환불 규정",
-                d: "1개월 전 취소: 등록비 제외 전액 환불 · 2주 전: 50% 환불 · 2주 이내: 환불 불가. 약관 전문을 상담 시 사전 공개합니다.",
+                d: "등록비: 1개월 전 100% · 2주 전 50% · 2주 이내 불가 / 잔금: 2주 전 100% · 2주 이내 불가. 약관 전문을 상담 시 사전 공개합니다.",
                 icon: (
                   <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
                     <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
@@ -3773,7 +3773,7 @@ function PreGo1Page() {
     { q: "중3에게 10시간 순공은 무리 아닌가요?", a: "10시간은 3주차 목표이며, 1~2주차는 단계적으로 늘어납니다. 학습 강도보다 '매일 같은 시간에 앉아있는 습관'을 만드는 것이 핵심입니다." },
     { q: "중학교 복습과 고1 선행 중 어느 쪽에 가까운가요?", a: "개인 진단 결과에 따라 분반 운영합니다. 중등 기초가 약한 학생은 복습 중심, 상위권은 고1 예습 중심으로 맞춤 편성합니다." },
     { q: "스마트폰은 사용할 수 있나요?", a: "평일 22:00 ~ 22:30 30분간만 사용 가능합니다. 부모님과의 긴급 연락은 생활지도사를 통해 즉시 가능합니다." },
-    { q: "중도에 하차하면 환불되나요?", a: "캠프 시작 1개월 전 취소 시 등록비(100만 원) 제외 전액 환불, 2주 전 취소 시 등록비 제외 금액의 50% 환불, 2주 이내~당일 취소는 환불 불가입니다." },
+    { q: "중도에 하차하면 환불되나요?", a: "등록비(100만 원)는 1개월 전 100% / 2주 전 50% / 2주 이내 환불 불가. 잔금은 2주 전까지 100% 환불 / 2주 이내 환불 불가입니다." },
   ];
 
   return (
@@ -4190,7 +4190,7 @@ function PreGo1Page() {
               },
               {
                 t: "투명한 환불 규정",
-                d: "1개월 전 취소: 등록비 제외 전액 환불 · 2주 전: 50% 환불 · 2주 이내: 환불 불가. 약관 전문을 상담 시 사전 공개합니다.",
+                d: "등록비: 1개월 전 100% · 2주 전 50% · 2주 이내 불가 / 잔금: 2주 전 100% · 2주 이내 불가. 약관 전문을 상담 시 사전 공개합니다.",
                 icon: (
                   <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
                     <circle cx="55" cy="55" r="48" fill="#0B2A5B" opacity="0.08"/>
@@ -4410,9 +4410,13 @@ function TermsPage() {
       <PolicySection title="제5조 (수강료 및 환불)">
         <p>① 수강료는 회사가 정한 금액으로 하며, 별도 공지를 통해 안내합니다.<br/>
         ② 환불 기준은 다음과 같습니다.<br/>
-        &nbsp;&nbsp;- 캠프 시작 1개월 전까지: 등록비(100만 원) 제외 전액 환불<br/>
-        &nbsp;&nbsp;- 캠프 시작 2주 전까지: 등록비 제외 금액의 50% 환불<br/>
-        &nbsp;&nbsp;- 캠프 시작 2주 이내 ~ 당일: 환불 불가<br/>
+        &nbsp;&nbsp;[등록비 100만 원]<br/>
+        &nbsp;&nbsp;- 캠프 시작 1개월 전까지: 등록비 100% 환불<br/>
+        &nbsp;&nbsp;- 캠프 시작 2주 전까지: 등록비 50% 환불<br/>
+        &nbsp;&nbsp;- 캠프 시작 2주 이내: 환불 불가<br/>
+        &nbsp;&nbsp;[등록비 외 잔금]<br/>
+        &nbsp;&nbsp;- 캠프 시작 2주 전까지: 잔금 100% 환불<br/>
+        &nbsp;&nbsp;- 캠프 시작 2주 이내: 환불 불가<br/>
         ③ 단, 회사 귀책 사유로 인한 경우 전액 환불합니다.<br/>
         ④ 순공 10시간 미달 환불 보증은 별도 약정서에 따릅니다.</p>
       </PolicySection>
@@ -4509,27 +4513,46 @@ function PrivacyPage() {
 function RefundPage() {
   return (
     <PolicyPage title="환불규정">
-      <PolicySection title="제1조 (등록비)">
-        <p>캠프 참가 신청 시 등록비 100만 원이 발생하며, 등록비는 환불 조건과 관계없이 반환되지 않습니다.</p>
-      </PolicySection>
-      <PolicySection title="제2조 (환불 기준)">
-        <p>환불 기준은 캠프 시작일을 기준으로 다음과 같이 적용됩니다.</p>
+      <PolicySection title="제1조 (등록비 환불 기준)">
+        <p>등록비(100만 원)는 캠프 시작일을 기준으로 아래와 같이 환불됩니다.</p>
         <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 12, fontSize: 14 }}>
           <thead>
             <tr style={{ background: "var(--navy)", color: "#fff" }}>
               <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600 }}>취소 시점</th>
-              <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600 }}>환불 금액</th>
+              <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600 }}>등록비 환불</th>
             </tr>
           </thead>
           <tbody>
             {[
-              ["캠프 시작 1개월 전 취소", "등록비(100만 원) 제외 전액 환불"],
-              ["캠프 시작 2주 전 취소",   "등록비 제외 금액의 50% 환불"],
-              ["캠프 시작 2주 이내 ~ 당일", "환불 불가"],
+              ["캠프 시작 1개월 전까지", "등록비 100% 환불"],
+              ["캠프 시작 2주 전까지",   "등록비 50% 환불"],
+              ["캠프 시작 2주 이내",      "환불 불가"],
             ].map(([when, policy], i) => (
               <tr key={i} style={{ borderBottom: "1px solid var(--line)", background: i % 2 === 0 ? "var(--cream)" : "#fff" }}>
                 <td style={{ padding: "10px 14px", fontWeight: 600 }}>{when}</td>
-                <td style={{ padding: "10px 14px", color: when.includes("불가") ? "var(--coral)" : "var(--ink)" }}>{policy}</td>
+                <td style={{ padding: "10px 14px", color: policy.includes("불가") ? "var(--coral)" : "var(--ink)" }}>{policy}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </PolicySection>
+      <PolicySection title="제2조 (등록비 외 잔금 환불 기준)">
+        <p>등록비를 제외한 잔금은 캠프 시작일을 기준으로 아래와 같이 환불됩니다.</p>
+        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 12, fontSize: 14 }}>
+          <thead>
+            <tr style={{ background: "var(--navy)", color: "#fff" }}>
+              <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600 }}>취소 시점</th>
+              <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600 }}>잔금 환불</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              ["캠프 시작 2주 전까지", "잔금 100% 환불"],
+              ["캠프 시작 2주 이내",    "환불 불가"],
+            ].map(([when, policy], i) => (
+              <tr key={i} style={{ borderBottom: "1px solid var(--line)", background: i % 2 === 0 ? "var(--cream)" : "#fff" }}>
+                <td style={{ padding: "10px 14px", fontWeight: 600 }}>{when}</td>
+                <td style={{ padding: "10px 14px", color: policy.includes("불가") ? "var(--coral)" : "var(--ink)" }}>{policy}</td>
               </tr>
             ))}
           </tbody>
