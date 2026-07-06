@@ -2377,7 +2377,7 @@ function PH({ label, ratio, className, style, src, alt }) {
 }
 
 // ============ Nav ============
-function Nav({ page, onNav }) {
+function Nav({ page, onNav, hideFab }) {
   const [solid, setSolid] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [heroGone, setHeroGone] = useState(false);
@@ -2469,9 +2469,9 @@ function Nav({ page, onNav }) {
           setMobile(false);
         }}>1:1 상담 신청하기</a>
       </div>
-      <div className={`mfab ${heroGone ? "mfab--visible" : "mfab--hidden"}`}>
+      {!hideFab && <div className={`mfab ${heroGone ? "mfab--visible" : "mfab--hidden"}`}>
         <button className="btn btn-primary" onClick={() => window.__openConsultModal && window.__openConsultModal()}>1:1 상담 신청하기</button>
-      </div>
+      </div>}
     </>
   );
 }
@@ -4529,10 +4529,10 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 
 // ============ Policy Layout ============
-function PolicyPage({ title, children }) {
+function PolicyPage({ title, children, hideFab }) {
   return (
     <div style={{ minHeight: "100vh", background: "var(--cream)" }}>
-      <Nav page="hub" />
+      <Nav page="hub" hideFab={hideFab} />
       <div style={{ paddingTop: "calc(var(--nav-h) + 48px)", paddingBottom: 80 }}>
         <div className="wrap" style={{ maxWidth: 780 }}>
           <a href="#/" onClick={(e) => { e.preventDefault(); window.location.hash = "#/"; window.scrollTo(0,0); }}
@@ -4760,7 +4760,7 @@ function AdmissionPage() {
   const tdStyle = {padding:"10px 14px"};
   const trStyle = (i) => ({borderBottom:"1px solid var(--line)",background:i%2===0?"var(--cream)":"#fff",verticalAlign:"top"});
   return (
-    <PolicyPage title="입소안내문">
+    <PolicyPage title="입소안내문" hideFab>
       <p style={{fontSize:13,color:'var(--muted)',marginBottom:24}}>학부모님과 학생이 입소 전 반드시 확인해야 할 준비사항과 캠프 생활 기준을 안내드립니다.</p>
 
       <div style={{background:"#EEF3FA",borderLeft:"4px solid var(--navy)",borderRadius:6,padding:"14px 18px",marginBottom:28,fontSize:14,lineHeight:1.9}}>
