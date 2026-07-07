@@ -5170,11 +5170,25 @@ function Naeshin5Page() {
           alt="내신 5등급제 대비 - 중3의 방학 준비는 달라져야 합니다"
           style={{display:"block",width:"100%",maxWidth:600,margin:"0 auto"}}
         />
-        <img
-          src="images/jungo1-page2.jpeg"
-          alt="내신 5등급제 대비 - 관리 시스템 및 모집요강"
-          style={{display:"block",width:"100%",maxWidth:600,margin:"0 auto"}}
-        />
+        <div style={{position:"relative",display:"block",width:"100%",maxWidth:600,margin:"0 auto"}}>
+          <img
+            src="images/jungo1-page2.jpeg"
+            alt="내신 5등급제 대비 - 관리 시스템 및 모집요강"
+            style={{display:"block",width:"100%"}}
+          />
+          {/* 모집요강 '상담 신청하기' 버튼 오버레이 */}
+          <button
+            onClick={() => window.__openConsultModal && window.__openConsultModal()}
+            style={{position:"absolute",top:"63.5%",left:"25%",width:"50%",height:"3.5%",background:"transparent",border:"none",cursor:"pointer",borderRadius:50}}
+            aria-label="상담 신청하기"
+          />
+          {/* 하단 CTA '상담 신청하기' 버튼 오버레이 */}
+          <button
+            onClick={() => window.__openConsultModal && window.__openConsultModal()}
+            style={{position:"absolute",top:"93.5%",left:"28%",width:"44%",height:"3%",background:"transparent",border:"none",cursor:"pointer",borderRadius:50}}
+            aria-label="상담 신청하기"
+          />
+        </div>
       </div>
       <div style={{background:"#0a0f1e",padding:"48px 24px",display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap"}}>
         <a href="#/pre-go1" onClick={go("#/pre-go1")}
