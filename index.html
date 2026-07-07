@@ -256,6 +256,56 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   content: ""; position: absolute; left: 0; right: 0; bottom: -2px;
   height: 2px; background: var(--gold);
 }
+/* 드롭다운 */
+.nav-dropdown { position: relative; }
+.nav-dropdown > .nav-dropdown-label {
+  color: rgba(255,255,255,0.78);
+  font-size: 14px; font-weight: 500;
+  cursor: pointer;
+  padding: 6px 0;
+  display: flex; align-items: center; gap: 4px;
+  transition: color .2s ease;
+}
+.nav-dropdown > .nav-dropdown-label:hover { color: var(--white); }
+.nav-dropdown > .nav-dropdown-label.active { color: var(--gold); }
+.nav-dropdown-arrow { font-size: 10px; transition: transform .2s; }
+.nav-dropdown:hover .nav-dropdown-arrow { transform: rotate(180deg); }
+.nav-dropdown-menu {
+  display: none;
+  position: absolute; top: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 6px 0;
+  min-width: 160px;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+.nav-dropdown:hover .nav-dropdown-menu { display: block; }
+.nav-dropdown-menu a {
+  display: block;
+  padding: 10px 18px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  white-space: nowrap;
+  border-bottom: none !important;
+}
+.nav-dropdown-menu a:hover { background: rgba(255,255,255,0.07); color: var(--white); }
+.nav-dropdown-menu a.active { color: var(--gold); }
+/* 모바일 드롭다운 서브메뉴 */
+.nav-mobile-sub {
+  padding-left: 16px;
+  border-left: 2px solid rgba(255,255,255,0.15);
+  margin: 0 0 2px 0;
+}
+.nav-mobile-sub a {
+  font-size: 14px !important;
+  padding: 10px 0 !important;
+  color: rgba(255,255,255,0.65) !important;
+  border-bottom: none !important;
+}
+.nav-mobile-sub a:last-child { border-bottom: 1px solid rgba(255,255,255,0.08) !important; }
 .nav-cta { display: flex; align-items: center; gap: 12px; }
 .nav-cta .btn { height: 40px; padding: 0 18px; font-size: 14px; }
 
@@ -2401,19 +2451,24 @@ function Nav({ page, onNav, hideFab }) {
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
+  const jungsamSubmenu = [
+    { href: "#/pre-go1", label: "중3 캠프 소개" },
+    { href: "#/naeshin5", label: "내신 5등급제 대비" },
+  ];
   const menus = page === "hub" ? [
     { href: "#/go3", label: "고3 캠프" },
-    { href: "#/pre-go1", label: "중3 캠프" },
+    { label: "중3 캠프", submenu: jungsamSubmenu },
     { href: "#recruit", label: "모집요강", anchor: true },
     { href: "#faq", label: "FAQ", anchor: true },
   ] : page === "go3" ? [
     { href: "#/", label: "← 메인" },
-    { href: "#/pre-go1", label: "중3 캠프" },
+    { label: "중3 캠프", submenu: jungsamSubmenu },
     { href: "#recruit", label: "모집요강", anchor: true },
     { href: "#faq", label: "FAQ", anchor: true },
   ] : [
     { href: "#/", label: "← 메인" },
     { href: "#/go3", label: "고3 캠프" },
+    { label: "중3 캠프", submenu: jungsamSubmenu },
     { href: "#recruit", label: "모집요강", anchor: true },
     { href: "#faq", label: "FAQ", anchor: true },
   ];
@@ -2438,7 +2493,16 @@ function Nav({ page, onNav, hideFab }) {
             <span>내공기숙캠프</span>
           </a>
           <div className="nav-menu">
-            {menus.map((m) => (
+            {menus.map((m) => m.submenu ? (
+              <div key={m.label} className="nav-dropdown">
+                <span className="nav-dropdown-label">{m.label} <span className="nav-dropdown-arrow">▾</span></span>
+                <div className="nav-dropdown-menu">
+                  {m.submenu.map((s) => (
+                    <a key={s.label} href={s.href} onClick={(e) => { e.preventDefault(); window.location.hash = s.href; window.scrollTo(0,0); }}>{s.label}</a>
+                  ))}
+                </div>
+              </div>
+            ) : (
               <a key={m.label} href={m.href} onClick={handleClick(m)}>{m.label}</a>
             ))}
           </div>
@@ -2459,7 +2523,16 @@ function Nav({ page, onNav, hideFab }) {
         </div>
       </nav>
       <div className={`nav-mobile ${mobile ? "open" : ""}`}>
-        {menus.map((m) => (
+        {menus.map((m) => m.submenu ? (
+          <div key={m.label}>
+            <a style={{display:"block",padding:"14px 0",color:"rgba(255,255,255,0.85)",fontSize:16,fontWeight:500,borderBottom:"1px solid rgba(255,255,255,0.08)"}}>{m.label}</a>
+            <div className="nav-mobile-sub">
+              {m.submenu.map((s) => (
+                <a key={s.label} href={s.href} onClick={(e) => { e.preventDefault(); window.location.hash = s.href; window.scrollTo(0,0); setMobile(false); }}>{s.label}</a>
+              ))}
+            </div>
+          </div>
+        ) : (
           <a key={m.label} href={m.href} onClick={handleClick(m)}>{m.label}</a>
         ))}
         <a className="btn btn-primary" href="#consult" onClick={(e) => {
@@ -5085,6 +5158,39 @@ function AdmissionPage() {
   );
 }
 
+// ============ 내신 5등급제 대비 ============
+function Naeshin5Page() {
+  const go = (hash) => (e) => { e.preventDefault(); window.location.hash = hash; window.scrollTo(0,0); };
+  return (
+    <div style={{minHeight:"100vh",background:"#0a0f1e"}}>
+      <Nav page="pre-go1" hideFab />
+      <div style={{paddingTop:"var(--nav-h)"}}>
+        <img
+          src="images/jungo1-page1.jpeg"
+          alt="내신 5등급제 대비 - 중3의 방학 준비는 달라져야 합니다"
+          style={{display:"block",width:"100%",maxWidth:600,margin:"0 auto"}}
+        />
+        <img
+          src="images/jungo1-page2.jpeg"
+          alt="내신 5등급제 대비 - 관리 시스템 및 모집요강"
+          style={{display:"block",width:"100%",maxWidth:600,margin:"0 auto"}}
+        />
+      </div>
+      <div style={{background:"#0a0f1e",padding:"32px 24px",textAlign:"center"}}>
+        <a href="#/pre-go1" onClick={go("#/pre-go1")}
+          style={{display:"inline-block",padding:"14px 32px",background:"var(--gold)",color:"var(--navy)",fontWeight:700,fontSize:15,borderRadius:8,textDecoration:"none",marginRight:12}}>
+          중3 캠프 소개 보기
+        </a>
+        <a href="#/payment" onClick={go("#/payment")}
+          style={{display:"inline-block",padding:"14px 32px",background:"var(--navy)",color:"#fff",fontWeight:700,fontSize:15,borderRadius:8,textDecoration:"none",border:"1px solid rgba(255,255,255,0.2)"}}>
+          상담 신청하기
+        </a>
+      </div>
+    </div>
+  );
+}
+window.Naeshin5Page = Naeshin5Page;
+
 // ============ Payment Page (예약금 결제 안내) ============
 function PaymentPage() {
   const [form, setForm] = React.useState({
@@ -5458,6 +5564,7 @@ function App() {
 
   let Page;
   if (hash.startsWith("#/go3")) Page = Go3Page;
+  else if (hash.startsWith("#/naeshin5")) Page = Naeshin5Page;
   else if (hash.startsWith("#/pre-go1")) Page = PreGo1Page;
   else if (hash.startsWith("#/terms")) Page = TermsPage;
   else if (hash.startsWith("#/privacy")) Page = PrivacyPage;
