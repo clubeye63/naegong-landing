@@ -5206,6 +5206,129 @@ function Naeshin5Page() {
 }
 window.Naeshin5Page = Naeshin5Page;
 
+// ============ 상담 전용 페이지 ============
+function ConsultPage() {
+  const [form, setForm] = React.useState({ name:'', phone:'', studentPhone:'', gender:'', grade:'고3', region:'', channel:'' });
+  const [privacy, setPrivacy] = React.useState(false);
+  const [status, setStatus] = React.useState('idle');
+  const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.phone.trim()) return;
+    if (!privacy) { alert('개인정보 수집·이용에 동의해주세요.'); return; }
+    setStatus('loading');
+    const payload = {
+      ...form, privacy_agreed: true, ...getUTM(),
+      page: window.location.hash || '#/consult',
+      submitted_at: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+    };
+    try {
+      const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
+      navigator.sendBeacon(APPS_SCRIPT_URL, blob);
+      if (window.naverConversionLead) window.naverConversionLead();
+      setStatus('success');
+    } catch(err) { setStatus('error'); }
+  };
+
+  return (
+    <div style={{minHeight:"100vh",background:"var(--cream)"}}>
+      <Nav page="hub" hideFab />
+      <div style={{paddingTop:"calc(var(--nav-h) + 40px)",paddingBottom:80}}>
+        <div style={{maxWidth:520,margin:"0 auto",padding:"0 20px"}}>
+          <div style={{textAlign:"center",marginBottom:32}}>
+            <p style={{fontSize:13,color:"var(--muted)",marginBottom:8}}>NAEGONG BOARDING CAMP</p>
+            <h1 style={{fontSize:26,fontWeight:800,color:"var(--navy)",letterSpacing:"-0.02em"}}>1:1 상담 신청</h1>
+            <p style={{fontSize:15,color:"var(--ink)",marginTop:8}}>작성 후 24시간 이내 담당자가 연락드립니다.</p>
+          </div>
+
+          {status === 'success' ? (
+            <div style={{background:"#fff",borderRadius:16,padding:"48px 32px",textAlign:"center",boxShadow:"0 4px 24px rgba(0,0,0,0.08)"}}>
+              <div style={{width:64,height:64,borderRadius:"50%",background:"var(--navy)",color:"#fff",fontSize:28,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 20px"}}>✓</div>
+              <h4 style={{fontSize:20,fontWeight:700,color:"var(--navy)",marginBottom:8}}>신청이 완료됐습니다!</h4>
+              <p style={{color:"var(--muted)",lineHeight:1.7}}>입력하신 연락처로<br/>24시간 이내 담당자가 연락드립니다.</p>
+              <a href="#/" onClick={(e)=>{e.preventDefault();window.location.hash="#/";window.scrollTo(0,0);}}
+                style={{display:"inline-block",marginTop:24,padding:"12px 32px",background:"var(--navy)",color:"#fff",borderRadius:8,fontWeight:700,textDecoration:"none"}}>
+                메인으로 돌아가기
+              </a>
+            </div>
+          ) : (
+            <div style={{background:"#fff",borderRadius:16,padding:"32px 28px",boxShadow:"0 4px 24px rgba(0,0,0,0.08)"}}>
+              <form onSubmit={handleSubmit}>
+                <div className="form-row">
+                  <label>학생 이름 <span>*</span></label>
+                  <input className="form-input" type="text" placeholder="홍길동" value={form.name} onChange={set('name')} required />
+                </div>
+                <div className="form-row">
+                  <label>학부모 연락처 <span>*</span></label>
+                  <input className="form-input" type="tel" placeholder="010-0000-0000" value={form.phone} onChange={set('phone')} required />
+                </div>
+                <div className="form-row">
+                  <label>학생 연락처 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
+                  <input className="form-input" type="tel" placeholder="010-0000-0000" value={form.studentPhone} onChange={set('studentPhone')} />
+                </div>
+                <div className="form-row">
+                  <label>학년 <span>*</span></label>
+                  <select className="form-select" value={form.grade} onChange={set('grade')}>
+                    <option value="고3">고3 (2027 수능)</option>
+                    <option value="중3">중3 (현 중3)</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+                <div className="form-row">
+                  <label>학생 성별 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
+                  <div style={{display:'flex',gap:10}}>
+                    {['남','여'].map(g => (
+                      <button key={g} type="button"
+                        onClick={() => setForm(f => ({ ...f, gender: f.gender === g ? '' : g }))}
+                        style={{flex:1,padding:'10px 0',borderRadius:8,fontSize:15,fontWeight:700,cursor:'pointer',transition:'all .15s',
+                          border: form.gender===g?'2px solid var(--navy)':'2px solid var(--line)',
+                          background: form.gender===g?'var(--bg-g3)':'#fff',
+                          color: form.gender===g?'var(--navy)':'var(--muted)'}}>
+                        {g}학생
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label>지역 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
+                  <input className="form-input" type="text" placeholder="예) 서울 강남, 경기 수원" value={form.region} onChange={set('region')} />
+                </div>
+                <div className="form-row">
+                  <label>알게된 경로 <span style={{color:'var(--muted)',fontWeight:400,fontSize:13}}>(선택)</span></label>
+                  <select className="form-select" value={form.channel} onChange={set('channel')}>
+                    <option value="">선택해주세요</option>
+                    <option value="검색">검색 (네이버/구글)</option>
+                    <option value="지인추천">지인 추천</option>
+                    <option value="SNS">SNS (인스타그램/유튜브 등)</option>
+                    <option value="네이버카페">네이버 카페</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+                <div className="form-row" style={{marginTop:4}}>
+                  <label style={{display:'flex',alignItems:'flex-start',gap:10,fontSize:13,color:'var(--muted)',fontWeight:400,cursor:'pointer'}}>
+                    <input type="checkbox" checked={privacy} onChange={e=>setPrivacy(e.target.checked)}
+                      style={{marginTop:2,accentColor:'var(--navy)',flexShrink:0,width:16,height:16}} />
+                    <span>
+                      <strong style={{color:'var(--ink)',fontWeight:600}}>[필수] 개인정보 수집·이용 동의</strong><br/>
+                      수집 항목: 이름, 연락처, 학년, 지역 / 목적: 상담 안내 / 보유기간: 상담 완료 후 즉시 파기
+                    </span>
+                  </label>
+                </div>
+                <button className="form-submit" type="submit" disabled={status==='loading'||!privacy}>
+                  {status==='loading'?'제출 중...':'상담 신청하기'}
+                </button>
+                {status==='error' && <p style={{color:'red',textAlign:'center',marginTop:8,fontSize:13}}>오류가 발생했습니다. 다시 시도해주세요.</p>}
+              </form>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+window.ConsultPage = ConsultPage;
+
 // ============ Payment Page (예약금 결제 안내) ============
 function PaymentPage() {
   const [form, setForm] = React.useState({
@@ -5581,6 +5704,7 @@ function App() {
   if (hash.startsWith("#/go3")) Page = Go3Page;
   else if (hash.startsWith("#/naeshin5")) Page = Naeshin5Page;
   else if (hash.startsWith("#/pre-go1")) Page = PreGo1Page;
+  else if (hash.startsWith("#/consult")) Page = ConsultPage;
   else if (hash.startsWith("#/terms")) Page = TermsPage;
   else if (hash.startsWith("#/privacy")) Page = PrivacyPage;
   else if (hash.startsWith("#/refund")) Page = RefundPage;
