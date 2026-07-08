@@ -1412,6 +1412,21 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .policy-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .policy-table-wrap table { min-width: 480px; }
   .policy-table-wrap.wide table { min-width: 600px; }
+  .photo-scroll-grid {
+    display: flex !important;
+    grid-template-columns: unset !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 10px !important;
+    padding-right: 40px;
+    scrollbar-width: none;
+  }
+  .photo-scroll-grid::-webkit-scrollbar { display: none; }
+  .photo-scroll-grid > div {
+    flex: 0 0 82% !important;
+    scroll-snap-align: start;
+  }
 }
 
 /* ====== Floating CTA ====== */
@@ -3890,7 +3905,7 @@ function Go3Page() {
                 <h3 style={{color:"#fff",fontSize:20,fontWeight:700,margin:0}}>모의고사실</h3>
                 <span style={{color:"rgba(255,255,255,0.5)",fontSize:14}}>— 수능 시험장과 동일한 책상 배치</span>
               </div>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10}}>
+              <div className="photo-scroll-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10}}>
                 {["high-test01.jpeg","high-test02.jpeg","high-test03.jpeg"].map((f,i) => (
                   <div key={i} style={{borderRadius:10,overflow:"hidden",aspectRatio:"4/3"}}>
                     <img src={`images/${f}`} alt={`모의고사실 ${i+1}`} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
@@ -3905,7 +3920,7 @@ function Go3Page() {
                 <h3 style={{color:"#fff",fontSize:20,fontWeight:700,margin:0}}>자습실</h3>
                 <span style={{color:"rgba(255,255,255,0.5)",fontSize:14}}>— 개인 칸막이 집중 학습 공간</span>
               </div>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10}}>
+              <div className="photo-scroll-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10}}>
                 {["high3-study01.jpeg","high3-study02.jpeg","high3-study03.jpeg"].map((f,i) => (
                   <div key={i} style={{borderRadius:10,overflow:"hidden",aspectRatio:"4/3"}}>
                     <img src={`images/${f}`} alt={`자습실 ${i+1}`} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
