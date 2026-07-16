@@ -1572,6 +1572,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .form-success p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 
 </style>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1056590217328854');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1056590217328854&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -2313,6 +2331,7 @@ function ConsultModal({ open, onClose, defaultCamp }) {
       const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
       navigator.sendBeacon(APPS_SCRIPT_URL, blob);
       if (window.naverConversionLead) window.naverConversionLead();
+      if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: '내공 기숙 캠프 상담신청', content_category: '상담신청' });
       setStatus('success');
     } catch(err) {
       setStatus('error');
@@ -5290,6 +5309,7 @@ function ConsultPage() {
       const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
       navigator.sendBeacon(APPS_SCRIPT_URL, blob);
       if (window.naverConversionLead) window.naverConversionLead();
+      if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: '내공 기숙 캠프 상담신청', content_category: '상담신청' });
       setStatus('success');
     } catch(err) { setStatus('error'); }
   };
@@ -5661,6 +5681,7 @@ function EventModal({ open, onClose }) {
       const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
       navigator.sendBeacon(APPS_SCRIPT_URL, blob);
       if (window.naverConversionLead) window.naverConversionLead();
+      if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: '내공 기숙 캠프 상담신청', content_category: '상담신청' });
       setStatus('success');
     } catch(err) { setStatus('error'); }
   };
