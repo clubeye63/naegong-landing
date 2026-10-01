@@ -1326,13 +1326,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* Info session */
-.info-session {
-  background: var(--cream-2);
-  padding: clamp(32px, 5vw, 56px);
-  display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: center;
-}
-.info-session h3 { font-size: clamp(22px, 2.5vw, 28px); color: var(--navy); margin: 0 0 8px; font-weight: 700; }
-.info-session p { margin: 0; color: var(--ink-2); line-height: 1.7; }
 .info-dates { display: flex; flex-direction: column; gap: 10px; }
 .info-date {
   background: var(--white); padding: 16px 20px;
@@ -1378,7 +1371,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .trust-grid { grid-template-columns: 1fr; }
   .pillar-body { grid-template-columns: 1fr; }
   .report { grid-template-columns: 1fr; }
-  .info-session { grid-template-columns: 1fr; }
   .nav-menu { display: none; }
   .nav-burger { display: flex; }
   .nav-cta .btn.desk-only { display: none; }
@@ -1829,10 +1821,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="faq-item">
           <div class="q">Q. 연세대 캠퍼스 시설을 직접 사용하나요?</div>
           <div class="a">네. 연세대학교 송도 국제캠퍼스와 공식 MOU를 체결하여 기숙사, 강의실, 학생식당을 100% 그대로 사용합니다.</div>
-        </div>
-        <div class="faq-item">
-          <div class="q">Q. 현장설명회가 있나요?</div>
-          <div class="a">6월 13일(토) 현장설명회는 종료되었습니다. 다음 설명회 일정은 카카오톡 @내공기숙캠프로 문의해 주세요.</div>
         </div>
       </div>
     </div>
@@ -2872,7 +2860,7 @@ function HubPage() {
         { label: "정문 또는 상징 건물", src: "images/campus-01b-new.jpg", ratio: "4-3" },
         { label: "캠퍼스 야경 또는 다른 앵글", src: "images/campus-01c.jpg", ratio: "4-3" },
       ]},
-    { n: "02", title: "강의실", caption: "70명 규모 · 빔프로젝터 · 냉방 완비",
+    { n: "02", title: "강의실", caption: "빔프로젝터 · 냉방 완비",
       layout: "2-1",
       imgs: [
         { label: "개별 열람실\n(집중 학습 공간)", src: "images/campus-study-room.png", ratio: "4-3" },
@@ -3901,8 +3889,6 @@ function Go3Page() {
         </div>
       </section>
 
-      {/* G-S9 Info Session - 설명회 종료로 숨김 */}
-
       {/* G-S9b Space */}
       <section className="section" style={{background:"var(--navy)"}}>
         <div className="wrap">
@@ -4579,8 +4565,6 @@ function PreGo1Page() {
           </div>
         </div>
       </section>
-
-      {/* P-S9 Info Session - 설명회 종료로 숨김 */}
 
       {/* P-S10 Recruitment */}
       <section id="recruit" className="section" style={{ background: "var(--white)" }}>
@@ -5651,99 +5635,6 @@ function PaymentPage() {
   );
 }
 
-// ============ Event Modal (현장 설명회 신청) ============
-function EventModal({ open, onClose }) {
-  const [form, setForm] = React.useState({ name:'', phone:'', grade:'예비고3', attend:'학생 단독' });
-  const [status, setStatus] = React.useState('idle');
-
-  React.useEffect(() => {
-    if (open) { document.body.style.overflow = 'hidden'; setStatus('idle'); }
-    else document.body.style.overflow = '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
-
-  const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim()) return;
-    setStatus('loading');
-    const payload = {
-      ...form,
-      sheetTarget: '시트2',
-      type: '현장설명회',
-      event_date: '2026.06.13(토)',
-      ...getUTM(),
-      page: window.location.hash || '#/',
-      submitted_at: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
-    };
-    try {
-      const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
-      navigator.sendBeacon(APPS_SCRIPT_URL, blob);
-      if (window.naverConversionLead) window.naverConversionLead();
-      if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: '내공 기숙 캠프 상담신청', content_category: '상담신청' });
-      setStatus('success');
-    } catch(err) { setStatus('error'); }
-  };
-
-  const handleOverlay = (e) => { if (e.target === e.currentTarget) onClose(); };
-
-  return (
-    <div className={`modal-overlay ${open ? 'open' : ''}`} onClick={handleOverlay}>
-      <div className="modal-box">
-        <div className="modal-head">
-          <div>
-            <h3>현장 설명회 신청</h3>
-            <p>📅 2026.06.13(토) · 연세대 송도 국제캠퍼스</p>
-          </div>
-          <button className="modal-close" onClick={onClose} aria-label="닫기">✕</button>
-        </div>
-        {status === 'success' ? (
-          <div className="form-success">
-            <div className="success-icon">✓</div>
-            <h4>신청이 완료됐습니다!</h4>
-            <p>입력하신 연락처로<br/>일정 안내 문자를 발송해 드립니다.</p>
-            <button className="btn btn-primary" style={{marginTop:8}} onClick={onClose}>확인</button>
-          </div>
-        ) : (
-          <form className="modal-body" onSubmit={handleSubmit}>
-            <div className="form-row">
-              <label>신청자 이름 <span>*</span></label>
-              <input className="form-input" type="text" placeholder="홍길동" value={form.name} onChange={set('name')} required />
-            </div>
-            <div className="form-row">
-              <label>연락처 <span>*</span></label>
-              <input className="form-input" type="tel" placeholder="010-0000-0000" value={form.phone} onChange={set('phone')} required />
-            </div>
-            <div className="form-row">
-              <label>학년 <span>*</span></label>
-              <select className="form-select" value={form.grade} onChange={set('grade')}>
-                <option value="예비고3">예비고3 (현 고2)</option>
-                <option value="예비고1">예비고1 (현 중3)</option>
-                <option value="기타">기타</option>
-              </select>
-            </div>
-            <div className="form-row">
-              <label>참석 형태</label>
-              <select className="form-select" value={form.attend} onChange={set('attend')}>
-                <option value="학생 단독">학생 단독</option>
-                <option value="보호자 동반">보호자 동반</option>
-              </select>
-            </div>
-            <p style={{fontSize:12, color:'var(--muted)', margin:'4px 0 8px', lineHeight:1.6}}>
-              수집된 정보는 설명회 안내 목적으로만 사용됩니다.
-            </p>
-            <button className="btn btn-primary" type="submit" style={{width:'100%', marginTop:4}} disabled={status==='loading'}>
-              {status === 'loading' ? '신청 중...' : '설명회 신청하기'}
-            </button>
-            {status === 'error' && <p style={{color:'#e53e3e', fontSize:13, marginTop:8, textAlign:'center'}}>오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>}
-          </form>
-        )}
-      </div>
-    </div>
-  );
-}
-
 function useHashRoute() {
   const [hash, setHash] = useState(() => window.location.hash || "#/");
   useEffect(() => {
@@ -5761,10 +5652,8 @@ function App() {
   const hash = useHashRoute();
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [modalOpen, setModalOpen] = useState(false);
-  const [eventModalOpen, setEventModalOpen] = useState(false);
   const defaultCamp = hash.startsWith("#/go3") ? "예비고3 수능 실전 하드트레이닝" : hash.startsWith("#/pre-go1") ? "예비고1 습관 혁명" : "미정";
   useEffect(() => { window.__openConsultModal = () => setModalOpen(true); }, []);
-  useEffect(() => { window.__openEventModal = () => setEventModalOpen(true); }, []);
 
   useEffect(() => {
     const r = document.documentElement.style;
@@ -5803,7 +5692,6 @@ function App() {
       <Page key={hash} />
       {!isPayment && <FloatingCTA />}
       {!isPayment && <ConsultModal open={modalOpen} onClose={() => setModalOpen(false)} defaultCamp={defaultCamp} />}
-      {!isPayment && <EventModal open={eventModalOpen} onClose={() => setEventModalOpen(false)} />}
       <TweaksPanel title="Tweaks">
         <TweakSection label="Colors">
           <TweakColor label="Navy (primary)"
