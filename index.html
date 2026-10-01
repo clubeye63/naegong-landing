@@ -1758,7 +1758,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="eyebrow">RECRUIT</div>
       <h2>예비고3 캠프 모집요강</h2>
       <table class="recruit-table">
-        <tr><th>대상</th><td>예비 예비고3 (현 고2 · 2028학년도 수능 응시 예정) 학생</td></tr>
+        <tr><th>대상</th><td>예비고3 (현 고2 · 2028학년도 수능 응시 예정) 학생</td></tr>
         <tr><th>기간</th><td>2027년 1월 10일(일) ~ 1월 30일(토) · 21일</td></tr>
         <tr><th>장소</th><td>연세대학교 송도 국제캠퍼스 (공식 MOU)</td></tr>
         <tr><th>정원</th><td>65명 한정 (선착순 마감)</td></tr>
@@ -2574,13 +2574,12 @@ function Nav({ page, onNav, hideFab }) {
 
 // ============ 얼리버드 단계 ============
 const EARLY_BIRD_TIERS = [
-  { name: "1차 슈퍼 얼리버드", end: "2026-05-31T23:59:59+09:00", price: "330만 원", discount: "23%", badge: "🔥 SUPER EARLY" },
-  { name: "2차 얼리버드",      end: "2026-06-20T23:59:59+09:00", price: "345만 원", discount: "20%", badge: "⚡ EARLY BIRD"  },
-  { name: "3차 레귤러",        end: "2026-07-10T23:59:59+09:00", price: "360만 원", discount: "16%", badge: "📌 REGULAR"     },
-  { name: "4차 마감 임박",     end: "2026-07-20T23:59:59+09:00", price: "380만 원", discount: "12%", badge: "🚨 LAST CHANCE" },
-  { name: "5차 파이널",        end: "2026-07-25T23:59:59+09:00", price: "399만 원", discount: "7%",  badge: "🎯 FINAL"       },
+  { name: "1차 얼리버드", end: "2026-10-31T23:59:59+09:00", price: "360만 원", discount: "12%", badge: "🔥 EARLY BIRD", limit: "학년별 선착순 20명" },
+  { name: "2차 얼리버드", end: "2026-11-30T23:59:59+09:00", price: "385만 원", discount: "6%",  badge: "⚡ EARLY BIRD", limit: "학년별 선착순 20명" },
+  { name: "3차 접수",     end: "2026-12-18T23:59:59+09:00", price: "410만 원", discount: null,  badge: "📌 REGULAR",    limit: null },
 ];
-const REGULAR_PRICE = "430만 원";
+const REGULAR_PRICE = "410만 원";
+const COMPANION_DISCOUNT = "동행 등록 시 각 10만 원 할인";
 
 function getCurrentTier() {
   const now = Date.now();
@@ -2598,8 +2597,9 @@ function EarlyBirdPriceCell() {
   const d  = endDate.getDate();
   return (
     <>
-      <span className="cmp-price-old">{REGULAR_PRICE}</span>
-      <span className="cmp-price-new">{tier.price} ({mo}/{d} {tier.name})</span>
+      {tier.discount && <span className="cmp-price-old">{REGULAR_PRICE}</span>}
+      <span className="cmp-price-new">{tier.price} ({mo}/{d}까지 {tier.name})</span>
+      <div style={{ fontSize: 13, marginTop: 4, opacity: 0.8 }}>{COMPANION_DISCOUNT} · 부가세 포함</div>
     </>
   );
 }
@@ -2657,7 +2657,7 @@ function CTASection({ kicker }) {
               <span style={{
                 border: "1px solid var(--gold)", color: "var(--gold)", fontWeight: 600,
                 fontSize: 12, padding: "4px 14px", borderRadius: 20
-              }}>{tier.name} · 20명 한정</span>
+              }}>{tier.name}{tier.limit ? ` · ${tier.limit}` : ''}</span>
             </div>
             {/* 카운트다운 */}
             <div style={{ color: "var(--gold)", fontSize: 13, fontWeight: 600, marginBottom: 10, letterSpacing: "0.08em" }}>
@@ -2666,10 +2666,11 @@ function CTASection({ kicker }) {
             <Countdown target={tier.end} />
             {/* 가격 */}
             <div className="cta-price">
-              <span className="cta-price-old">{REGULAR_PRICE}</span>
+              {tier.discount && <span className="cta-price-old">{REGULAR_PRICE}</span>}
               <span className="cta-price-new">{tier.price}</span>
-              <span className="cta-price-save">{tier.discount} 할인</span>
+              {tier.discount && <span className="cta-price-save">{tier.discount} 할인</span>}
             </div>
+            <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 13, marginTop: 10 }}>{COMPANION_DISCOUNT} · 부가세 포함</p>
           </>
         ) : (
           <div className="cta-price" style={{ marginTop: 28 }}>
@@ -3054,7 +3055,7 @@ function HubPage() {
                 <div className="target-meta">
                   <span>1월 10일~1월 30일</span>
                   <span>정원 65명</span>
-                  <span>얼리버드 선착순 혜택</span>
+                  <span>얼리버드 360만 원부터</span>
                 </div>
                 <div className="target-name">예비고3 수능 실전 캠프</div>
                 <div className="target-hook">3주간 매일 수능 환경을 연습하며,<br/>성적 뿐만 아니라 바이오리듬, 멘탈까지 훈련합니다.</div>
@@ -3067,7 +3068,7 @@ function HubPage() {
                 <div className="target-meta">
                   <span>1월 10일~1월 30일</span>
                   <span>정원 65명</span>
-                  <span>얼리버드 선착순 혜택</span>
+                  <span>얼리버드 360만 원부터</span>
                 </div>
                 <div className="target-name">예비고1 습관 캠프</div>
                 <div className="target-hook">3주간 스스로 공부하는 습관을 만들며,<br/>고등학교 입학 전 학습 루틴을 완성합니다.</div>
@@ -3947,13 +3948,14 @@ function Go3Page() {
           <div className="reveal">
             <table className="cmp">
               <tbody>
-                <tr><td>모집 대상</td><td>예비 예비고3 (현 고2 · 2028학년도 수능 응시 예정) 학생</td></tr>
+                <tr><td>모집 대상</td><td>예비고3 (현 고2 · 2028학년도 수능 응시 예정) 학생</td></tr>
                 <tr><td>운영 기간</td><td>2027년 1월 10일(일) ~ 1월 30일(토) · 21일</td></tr>
                 <tr><td>운영 장소</td><td>연세대학교 송도 국제캠퍼스 (인천광역시 연수구)</td></tr>
                 <tr><td>모집 정원</td><td>65명 한정 (선착순 마감)</td></tr>
                 <tr><td>참가비</td><td><EarlyBirdPriceCell /></td></tr>
                 <tr><td>포함 사항</td><td>기숙사 · 3식 · 교재 · 1:6 멘토 지도 · 내공 앱 · 매일 리포트</td></tr>
-                <tr><td>접수 방법</td><td>1:1 상담 신청 → 입소 의사 확인 → 참가비 입금 → 확정</td></tr>
+                <tr><td>결제 일정</td><td>예약금 100만 원 → 잔금 12월 18일(금) ~ 12월 25일(금)</td></tr>
+                <tr><td>접수 방법</td><td>1:1 상담 신청 → 입소 의사 확인 → 예약금 입금 → 확정</td></tr>
               </tbody>
             </table>
           </div>
@@ -4582,7 +4584,8 @@ function PreGo1Page() {
                 <tr><td>모집 정원</td><td>65명 한정 (선착순 마감)</td></tr>
                 <tr><td>참가비</td><td><EarlyBirdPriceCell /></td></tr>
                 <tr><td>포함 사항</td><td>기숙사 · 3식 · 교재 · 1:6 멘토 지도 · 내공 앱 · 매일 리포트 · 입시 로드맵</td></tr>
-                <tr><td>접수 방법</td><td>1:1 상담 신청 → 입소 의사 확인 → 참가비 입금 → 확정</td></tr>
+                <tr><td>결제 일정</td><td>예약금 100만 원 → 잔금 12월 18일(금) ~ 12월 25일(금)</td></tr>
+                <tr><td>접수 방법</td><td>1:1 상담 신청 → 입소 의사 확인 → 예약금 입금 → 확정</td></tr>
               </tbody>
             </table>
           </div>
@@ -5495,6 +5498,10 @@ function PaymentPage() {
             <div style={{ flex: 1, minWidth: 140, background: '#F5F7FB', borderRadius: 10, padding: '14px 16px' }}>
               <div style={{ fontSize: 11, color: '#9AA3AF', fontWeight: 600, marginBottom: 4 }}>입금 기한</div>
               <div style={{ fontSize: 15, fontWeight: 700, color: '#0B2A5B' }}>신청 후 3영업일 이내</div>
+            </div>
+            <div style={{ flex: 1, minWidth: 140, background: '#F5F7FB', borderRadius: 10, padding: '14px 16px' }}>
+              <div style={{ fontSize: 11, color: '#9AA3AF', fontWeight: 600, marginBottom: 4 }}>잔금 납부</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: '#0B2A5B' }}>12/18(금) ~ 12/25(금)</div>
             </div>
           </div>
           <p style={{ fontSize: 13, color: '#9AA3AF', marginTop: 14, lineHeight: 1.6 }}>
