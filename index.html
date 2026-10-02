@@ -3193,13 +3193,34 @@ const WEEKDAY_SCHEDULE = [
 
 // 1기 학부모님들이 카카오톡으로 전달해주신 피드백입니다.
 const SHOW_PARENT_REVIEWS = true;
-const PARENT_REVIEWS = [
+const PARENT_REVIEWS_GO3 = [
   { quote: "아이의 모습을 세심하게 살펴봐 주시고 구체적으로 알려주셔서 감사합니다. 집에서는 미처 몰랐던 아이의 장점과 성장한 부분을 알게 됐어요.", who: "1기 학부모" },
   { quote: "공부 습관뿐 아니라 아이의 성격과 친구들과의 관계까지 자세히 전해주셔서 안심이 됩니다. 캠프에서 잘 지내고 있는 것 같아 감사해요.", who: "1기 학부모" },
   { quote: "아이가 어떤 부분에서 자신감을 얻고, 앞으로 무엇을 보완하면 좋을지 알 수 있어 큰 도움이 됐습니다.", who: "1기 학부모" },
+];
+const PARENT_REVIEWS_PRE1 = [
   { quote: "멘토님께서 아이를 진심으로 관찰하고 지도해주신다는 느낌을 받았습니다. 아이에게도 이번 캠프가 오래 기억에 남을 것 같아요.", who: "1기 학부모" },
   { quote: "구체적인 학습 내용과 변화 과정을 알려주셔서 캠프에서 보낸 시간이 헛되지 않았다는 생각이 듭니다. 정성스러운 리포트 감사합니다.", who: "1기 학부모" },
 ];
+
+function ParentReviews({ items }) {
+  if (!SHOW_PARENT_REVIEWS || !items || !items.length) return null;
+  return (
+    <div className="reveal" style={{ marginTop: 48 }}>
+      <h3 style={{ textAlign: "center", color: "var(--navy)", fontSize: 20, marginBottom: 6 }}>1기 학부모님들의 이야기</h3>
+      <p style={{ textAlign: "center", color: "var(--muted)", fontSize: 14, margin: "0 0 20px" }}>학습 리포트를 받아보신 1기 학부모님들의 카카오톡 피드백입니다.</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, maxWidth: items.length < 3 ? 720 : "none", margin: "0 auto" }}>
+        {items.map((r, i) => (
+          <div key={i} style={{ background: "#fff", border: "1px solid var(--line)", borderRadius: 14, padding: "20px 22px" }}>
+            <p style={{ margin: "0 0 12px", lineHeight: 1.75, color: "var(--ink)" }}>"{r.quote}"</p>
+            <div style={{ fontSize: 13, color: "var(--muted)", fontWeight: 600 }}>{r.who}</div>
+          </div>
+        ))}
+      </div>
+      <p style={{ textAlign: "center", fontSize: 12, color: "var(--muted)", marginTop: 14 }}>※ 1기 학부모님들께서 카카오톡으로 전달해주신 피드백입니다.</p>
+    </div>
+  );
+}
 
 function Go3Page() {
   useReveal();
@@ -3712,21 +3733,7 @@ function Go3Page() {
               <img src="images/report-mock.png" alt="내공에듀 학부모 리포트 앱 화면" />
             </div>
           </div>
-          {SHOW_PARENT_REVIEWS && (
-            <div className="reveal" style={{ marginTop: 48 }}>
-              <h3 style={{ textAlign: "center", color: "var(--navy)", fontSize: 20, marginBottom: 6 }}>1기 학부모님들의 이야기</h3>
-              <p style={{ textAlign: "center", color: "var(--muted)", fontSize: 14, margin: "0 0 20px" }}>학습 리포트를 받아보신 1기 학부모님들의 카카오톡 피드백입니다.</p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
-                {PARENT_REVIEWS.map((r, i) => (
-                  <div key={i} style={{ background: "#fff", border: "1px solid var(--line)", borderRadius: 14, padding: "20px 22px" }}>
-                    <p style={{ margin: "0 0 12px", lineHeight: 1.75, color: "var(--ink)" }}>"{r.quote}"</p>
-                    <div style={{ fontSize: 13, color: "var(--muted)", fontWeight: 600 }}>{r.who}</div>
-                  </div>
-                ))}
-              </div>
-              <p style={{ textAlign: "center", fontSize: 12, color: "var(--muted)", marginTop: 14 }}>※ 1기 학부모님들께서 카카오톡으로 전달해주신 피드백입니다.</p>
-            </div>
-          )}
+          <ParentReviews items={PARENT_REVIEWS_GO3} />
         </div>
       </section>
 
@@ -4407,6 +4414,7 @@ function PreGo1Page() {
               <img src="images/report-mock.png" alt="내공에듀 학부모 리포트 앱 화면" />
             </div>
           </div>
+          <ParentReviews items={PARENT_REVIEWS_PRE1} />
         </div>
       </section>
 
